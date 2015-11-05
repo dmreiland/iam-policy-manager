@@ -3,7 +3,7 @@
 This utility helps manage AWS IAM Roles, and their associated Policies
 via a simple model.
 
-<h2>Installation</h>
+<h2>Installation</h2>
 This utility is distributed as a python module, ready to be installed with pip.
 
 This app requires python 3
