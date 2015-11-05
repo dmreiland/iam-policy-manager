@@ -1,0 +1,37 @@
+{
+  "us-west-2": {
+    "dev": null,
+    "test": null,
+    "qa": null,
+    "prod": null,
+    "infra": {
+      "docker_registry": {
+        "docker_registry": [ "service" ]
+      },
+      "gerrit": {
+        "gerrit": [ "service" ]
+      },
+      "nexus": {
+        "nexus": [ "service" ]
+      },
+      "signal_recipient": {
+        "signal_recipient": [ "service" ]
+      }
+    },
+    "corp": {
+      "es": {
+        "es": [ "service" ]
+      },
+      "icinga": {
+        "icinga": [ "service", "ec2_readonly" ]
+      },
+      "kibana": {
+        "kibana": [ "service" ],
+        "elastalert": [ "service" ]
+      },
+      "logstash": {
+        "logstash": [ "service" ]
+      }
+    }
+  }
+}

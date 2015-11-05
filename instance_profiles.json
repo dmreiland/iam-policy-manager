@@ -1,0 +1,1723 @@
+{
+    "InstanceProfiles": [
+        {
+            "InstanceProfileId": "AIPAINRDMZ7P3LVKWFG3K", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIACOKJDNUB3OPGO3A", 
+                    "CreateDate": "2015-05-11T15:38:31Z", 
+                    "RoleName": "elasticsearch_ec2_role", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/elasticsearch_ec2_role"
+                }
+            ], 
+            "CreateDate": "2015-05-11T15:38:31Z", 
+            "InstanceProfileName": "elasticsearch_ec2_role", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/elasticsearch_ec2_role"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIGBOUOEHN2X2NPTUE", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJ2WZOB5BARTHNNHIQ", 
+                    "CreateDate": "2015-04-23T13:59:14Z", 
+                    "RoleName": "icinga_ec2_role", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/icinga_ec2_role"
+                }
+            ], 
+            "CreateDate": "2015-04-23T13:59:14Z", 
+            "InstanceProfileName": "icinga_ec2_role", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/icinga_ec2_role"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJBTRDBLSBKFJZEHNG", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIACS55HLWHJWSYKKY", 
+                    "CreateDate": "2015-05-18T14:56:39Z", 
+                    "RoleName": "jenkins_ec2_role", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/jenkins_ec2_role"
+                }
+            ], 
+            "CreateDate": "2015-05-18T14:56:39Z", 
+            "InstanceProfileName": "jenkins_ec2_role", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/jenkins_ec2_role"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIITDJNPLXDNTRVABW", 
+            "Roles": [], 
+            "CreateDate": "2015-11-05T16:40:58Z", 
+            "InstanceProfileName": "mongo", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/mongo"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIH5BOTY7KVTI6O2KI", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJB6PK446N7V64II6A", 
+                    "CreateDate": "2015-07-02T11:28:45Z", 
+                    "RoleName": "mongo_test", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/mongo_test"
+                }
+            ], 
+            "CreateDate": "2015-07-02T11:28:45Z", 
+            "InstanceProfileName": "mongo_test", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/mongo_test"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJKDNCVW4VST3DUSQ2", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJSW45SPAKTNOTUVV2", 
+                    "CreateDate": "2015-07-02T11:19:02Z", 
+                    "RoleName": "postgres_test", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/postgres_test"
+                }
+            ], 
+            "CreateDate": "2015-07-02T11:19:02Z", 
+            "InstanceProfileName": "postgres_test", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/postgres_test"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIWDAQFKUXG3YX3NKS", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAITCTM7HU3CKEUVCD2", 
+                    "CreateDate": "2015-10-16T12:04:43Z", 
+                    "RoleName": "us-west-2-corp-es", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-corp-es"
+                }
+            ], 
+            "CreateDate": "2015-10-16T12:04:43Z", 
+            "InstanceProfileName": "us-west-2-corp-es", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-corp-es"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJF43ZXB7CU3EDPBGY", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJRKOUAO2OTHWAX5R4", 
+                    "CreateDate": "2015-10-16T12:04:22Z", 
+                    "RoleName": "us-west-2-corp-icinga", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-corp-icinga"
+                }
+            ], 
+            "CreateDate": "2015-10-16T12:04:22Z", 
+            "InstanceProfileName": "us-west-2-corp-icinga", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-corp-icinga"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIYZSV7E7CGRKVV4IY", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAI6US7JNBFEAYCMJKI", 
+                    "CreateDate": "2015-09-28T14:58:29Z", 
+                    "RoleName": "us-west-2-corp-kibana", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-corp-kibana"
+                }
+            ], 
+            "CreateDate": "2015-09-28T14:58:29Z", 
+            "InstanceProfileName": "us-west-2-corp-kibana", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-corp-kibana"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJIMR3ATGYUAOMYWLC", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAINURBD4P2WU2MELZK", 
+                    "CreateDate": "2015-09-21T15:03:26Z", 
+                    "RoleName": "us-west-2-corp-logstash", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-corp-logstash"
+                }
+            ], 
+            "CreateDate": "2015-09-21T15:03:26Z", 
+            "InstanceProfileName": "us-west-2-corp-logstash", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-corp-logstash"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIJZW47AYY4IR3GHJ6", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAI45PZ3STZKKNOYSQO", 
+                    "CreateDate": "2015-10-01T13:32:58Z", 
+                    "RoleName": "us-west-2-dev-api_nginx", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-dev-api_nginx"
+                }
+            ], 
+            "CreateDate": "2015-10-01T13:32:58Z", 
+            "InstanceProfileName": "us-west-2-dev-api_nginx", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-api_nginx"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJXVIZ6VTZCWI4IWMC", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAI24V53BES4KM4JBUA", 
+                    "CreateDate": "2015-09-22T10:39:29Z", 
+                    "RoleName": "us-west-2-dev-consul", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-dev-consul"
+                }
+            ], 
+            "CreateDate": "2015-09-22T10:39:29Z", 
+            "InstanceProfileName": "us-west-2-dev-consul", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-consul"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJKKQD7JNY6UVBBZXK", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJTZ5ZNLVZ4JXYEE6C", 
+                    "CreateDate": "2015-07-14T10:58:41Z", 
+                    "RoleName": "us-west-2-dev-eps", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-dev-eps"
+                }
+            ], 
+            "CreateDate": "2015-07-14T10:58:41Z", 
+            "InstanceProfileName": "us-west-2-dev-eps", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-eps"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJGHFGAP2BUM5AKFIW", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIZVHD55X6ADRLUDF6", 
+                    "CreateDate": "2015-11-05T16:45:19Z", 
+                    "RoleName": "us-west-2-dev-mongo", 
+                    "Path": "/us-west-2/dev/mongo/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/dev/mongo/us-west-2-dev-mongo"
+                }
+            ], 
+            "CreateDate": "2015-11-05T16:45:19Z", 
+            "InstanceProfileName": "us-west-2-dev-mongo", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-mongo"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJ5DX5SA2H5U3KWSSW", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJI5AAAXZCXVUH6PFO", 
+                    "CreateDate": "2015-09-22T15:30:10Z", 
+                    "RoleName": "us-west-2-dev-mongodb_mongod_and_mongoc", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-dev-mongodb_mongod_and_mongoc"
+                }
+            ], 
+            "CreateDate": "2015-09-22T15:30:10Z", 
+            "InstanceProfileName": "us-west-2-dev-mongodb_mongod_and_mongoc", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-mongodb_mongod_and_mongoc"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIZBPQNNMS24U7B55A", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAISXOHVPCTE6D4IT4A", 
+                    "CreateDate": "2015-09-22T15:31:07Z", 
+                    "RoleName": "us-west-2-dev-mongodb_mongos", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-dev-mongodb_mongos"
+                }
+            ], 
+            "CreateDate": "2015-09-22T15:31:07Z", 
+            "InstanceProfileName": "us-west-2-dev-mongodb_mongos", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-mongodb_mongos"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJMYP5KXYOLR3XD5SG", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIB6Q5EQXGOYAHRCXK", 
+                    "CreateDate": "2015-07-14T13:21:03Z", 
+                    "RoleName": "us-west-2-dev-nat", 
+                    "Path": "/us-west-2/dev/nat/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/dev/nat/us-west-2-dev-nat"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:03Z", 
+            "InstanceProfileName": "us-west-2-dev-nat", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-nat"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIMUFAI3YEGIUWFONC", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAID6YKSC3KWOFW2DTK", 
+                    "CreateDate": "2015-07-14T13:21:02Z", 
+                    "RoleName": "us-west-2-dev-pingfederate", 
+                    "Path": "/us-west-2/dev/pingfederate/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/dev/pingfederate/us-west-2-dev-pingfederate"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:03Z", 
+            "InstanceProfileName": "us-west-2-dev-pingfederate", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-pingfederate"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJJXFUV57BDTYAKTW6", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJFCXN3WJQW5A5OA2S", 
+                    "CreateDate": "2015-07-14T13:21:05Z", 
+                    "RoleName": "us-west-2-dev-postgres", 
+                    "Path": "/us-west-2/dev/postgres/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/dev/postgres/us-west-2-dev-postgres"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:05Z", 
+            "InstanceProfileName": "us-west-2-dev-postgres", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-postgres"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJYFWDOGMD7XZB3VBE", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJIOPD5KDCAWNDKHPA", 
+                    "CreateDate": "2015-07-14T13:21:01Z", 
+                    "RoleName": "us-west-2-dev-rabbitmq", 
+                    "Path": "/us-west-2/dev/rabbitmq/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/dev/rabbitmq/us-west-2-dev-rabbitmq"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:02Z", 
+            "InstanceProfileName": "us-west-2-dev-rabbitmq", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-rabbitmq"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIZRPSKDX5IQI3ZDB6", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJQJLYRKH5AS4FGOIU", 
+                    "CreateDate": "2015-07-14T11:56:52Z", 
+                    "RoleName": "us-west-2-dev-tokenservice", 
+                    "Path": "/us-west-2/dev/tokenservice/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/dev/tokenservice/us-west-2-dev-tokenservice"
+                }
+            ], 
+            "CreateDate": "2015-07-14T11:56:53Z", 
+            "InstanceProfileName": "us-west-2-dev-tokenservice", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-tokenservice"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJZY63K56OSSVCZP3U", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIEEGSGNPUZPQRQLRQ", 
+                    "CreateDate": "2015-07-14T13:21:04Z", 
+                    "RoleName": "us-west-2-dev-vpn", 
+                    "Path": "/us-west-2/dev/vpn/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/dev/vpn/us-west-2-dev-vpn"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:04Z", 
+            "InstanceProfileName": "us-west-2-dev-vpn", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-dev-vpn"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIWFBEVJJZYU5LTLOE", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJB6SNCQJAK7KRDRNK", 
+                    "CreateDate": "2015-09-28T15:24:47Z", 
+                    "RoleName": "us-west-2-infra-docker_registry", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-infra-docker_registry"
+                }
+            ], 
+            "CreateDate": "2015-09-28T15:24:47Z", 
+            "InstanceProfileName": "us-west-2-infra-docker_registry", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-infra-docker_registry"
+        }, 
+        {
+            "InstanceProfileId": "AIPAITJVT25YBSKODXYKI", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIGII6LJB5P4E2FEMI", 
+                    "CreateDate": "2015-09-28T15:23:28Z", 
+                    "RoleName": "us-west-2-infra-gerrit", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-infra-gerrit"
+                }
+            ], 
+            "CreateDate": "2015-09-28T15:23:28Z", 
+            "InstanceProfileName": "us-west-2-infra-gerrit", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-infra-gerrit"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJ3GQLHXG5AZ4EAPZI", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJ4PT7WJBSM3IGU2PK", 
+                    "CreateDate": "2015-10-16T12:03:03Z", 
+                    "RoleName": "us-west-2-infra-jenkins_master", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-infra-jenkins_master"
+                }
+            ], 
+            "CreateDate": "2015-10-16T12:03:03Z", 
+            "InstanceProfileName": "us-west-2-infra-jenkins_master", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-infra-jenkins_master"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIHYFQFKFAAXGYJUIA", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJWAH7HULEBF26RE5E", 
+                    "CreateDate": "2015-09-28T15:23:59Z", 
+                    "RoleName": "us-west-2-infra-nexus", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-infra-nexus"
+                }
+            ], 
+            "CreateDate": "2015-09-28T15:23:59Z", 
+            "InstanceProfileName": "us-west-2-infra-nexus", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-infra-nexus"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJR5S2ICHFLKFYBMPA", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJC7HUH64223TWHO24", 
+                    "CreateDate": "2015-09-28T15:25:21Z", 
+                    "RoleName": "us-west-2-infra-signal_recipient", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-infra-signal_recipient"
+                }
+            ], 
+            "CreateDate": "2015-09-28T15:25:21Z", 
+            "InstanceProfileName": "us-west-2-infra-signal_recipient", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-infra-signal_recipient"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJSIPRJD7SO7VCVTHE", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIWR5M4Q274WGKXPR6", 
+                    "CreateDate": "2015-10-01T13:34:52Z", 
+                    "RoleName": "us-west-2-prod-api_nginx", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-prod-api_nginx"
+                }
+            ], 
+            "CreateDate": "2015-10-01T13:34:52Z", 
+            "InstanceProfileName": "us-west-2-prod-api_nginx", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-api_nginx"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIH2NMUD56JSRYZ7ZQ", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIWDCNRL2ASZZAAGRG", 
+                    "CreateDate": "2015-09-24T13:12:08Z", 
+                    "RoleName": "us-west-2-prod-consul", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-prod-consul"
+                }
+            ], 
+            "CreateDate": "2015-09-24T13:12:08Z", 
+            "InstanceProfileName": "us-west-2-prod-consul", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-consul"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIJBEUQJ7EJHPZ2XKK", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJFCAM2FKAAEU4YMVY", 
+                    "CreateDate": "2015-07-14T13:19:15Z", 
+                    "RoleName": "us-west-2-prod-eps", 
+                    "Path": "/us-west-2/prod/eps/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/prod/eps/us-west-2-prod-eps"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:19:16Z", 
+            "InstanceProfileName": "us-west-2-prod-eps", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-eps"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIEEHXK33NNGQNAO6Y", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIDG4QVTLCQF6KPQRW", 
+                    "CreateDate": "2015-09-24T13:11:05Z", 
+                    "RoleName": "us-west-2-prod-mongodb_mongod_and_mongoc", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-prod-mongodb_mongod_and_mongoc"
+                }
+            ], 
+            "CreateDate": "2015-09-24T13:11:06Z", 
+            "InstanceProfileName": "us-west-2-prod-mongodb_mongod_and_mongoc", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-mongodb_mongod_and_mongoc"
+        }, 
+        {
+            "InstanceProfileId": "AIPAITRR4N2T2CNZ7NBDQ", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAI5IMDREIYU6X2BEBQ", 
+                    "CreateDate": "2015-09-24T13:11:38Z", 
+                    "RoleName": "us-west-2-prod-mongodb_mongos", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-prod-mongodb_mongos"
+                }
+            ], 
+            "CreateDate": "2015-09-24T13:11:38Z", 
+            "InstanceProfileName": "us-west-2-prod-mongodb_mongos", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-mongodb_mongos"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJGEIM6ILMNPXIQWY6", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIG3T2K2F7JV45Q7WK", 
+                    "CreateDate": "2015-07-14T13:21:16Z", 
+                    "RoleName": "us-west-2-prod-nat", 
+                    "Path": "/us-west-2/prod/nat/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/prod/nat/us-west-2-prod-nat"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:16Z", 
+            "InstanceProfileName": "us-west-2-prod-nat", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-nat"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJ5QXFNRNUSN2G2YYG", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJMS3AFKMVF5GD2KIA", 
+                    "CreateDate": "2015-07-14T13:21:15Z", 
+                    "RoleName": "us-west-2-prod-pingfederate", 
+                    "Path": "/us-west-2/prod/pingfederate/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/prod/pingfederate/us-west-2-prod-pingfederate"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:15Z", 
+            "InstanceProfileName": "us-west-2-prod-pingfederate", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-pingfederate"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJCSSEO6T7LQFEL77I", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJGRNFNKJCBXBFCL6E", 
+                    "CreateDate": "2015-07-14T13:21:18Z", 
+                    "RoleName": "us-west-2-prod-postgres", 
+                    "Path": "/us-west-2/prod/postgres/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/prod/postgres/us-west-2-prod-postgres"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:18Z", 
+            "InstanceProfileName": "us-west-2-prod-postgres", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-postgres"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJWIDWCEJO2GDTCNS4", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJ5RJ7LCAJOPWWLFXE", 
+                    "CreateDate": "2015-07-14T13:21:14Z", 
+                    "RoleName": "us-west-2-prod-rabbitmq", 
+                    "Path": "/us-west-2/prod/rabbitmq/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/prod/rabbitmq/us-west-2-prod-rabbitmq"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:14Z", 
+            "InstanceProfileName": "us-west-2-prod-rabbitmq", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-rabbitmq"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJBHZEXXIKGR2ANNOW", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIANGRSUKFP6NE2STS", 
+                    "CreateDate": "2015-07-14T13:19:05Z", 
+                    "RoleName": "us-west-2-prod-tokenservice", 
+                    "Path": "/us-west-2/prod/tokenservice/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/prod/tokenservice/us-west-2-prod-tokenservice"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:19:06Z", 
+            "InstanceProfileName": "us-west-2-prod-tokenservice", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-tokenservice"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIQHB6PPCNXETM2HKA", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIV5ZD5PW4NAZ6IL3O", 
+                    "CreateDate": "2015-07-14T13:21:17Z", 
+                    "RoleName": "us-west-2-prod-vpn", 
+                    "Path": "/us-west-2/prod/vpn/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/prod/vpn/us-west-2-prod-vpn"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:17Z", 
+            "InstanceProfileName": "us-west-2-prod-vpn", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-prod-vpn"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJ42LHZS5OYCGG6VGI", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJ4H6MVZM2PBE4KWOK", 
+                    "CreateDate": "2015-10-01T13:34:27Z", 
+                    "RoleName": "us-west-2-qa-api_nginx", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-qa-api_nginx"
+                }
+            ], 
+            "CreateDate": "2015-10-01T13:34:27Z", 
+            "InstanceProfileName": "us-west-2-qa-api_nginx", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-api_nginx"
+        }, 
+        {
+            "InstanceProfileId": "AIPAID7DQGYKV73IW2DZM", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJVZDAVYUCVBOCZPAY", 
+                    "CreateDate": "2015-09-16T15:08:14Z", 
+                    "RoleName": "us-west-2-qa-consul", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-qa-consul"
+                }
+            ], 
+            "CreateDate": "2015-09-16T15:08:14Z", 
+            "InstanceProfileName": "us-west-2-qa-consul", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-consul"
+        }, 
+        {
+            "InstanceProfileId": "AIPAI4JZXXK4D2DRF2REW", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJ5VEVWALUWHG4NOGG", 
+                    "CreateDate": "2015-07-14T13:19:14Z", 
+                    "RoleName": "us-west-2-qa-eps", 
+                    "Path": "/us-west-2/qa/eps/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/qa/eps/us-west-2-qa-eps"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:19:15Z", 
+            "InstanceProfileName": "us-west-2-qa-eps", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-eps"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJFZDVZ7KSK7XRVOL6", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJIONA3BB32SKEMQC6", 
+                    "CreateDate": "2015-11-02T16:47:11Z", 
+                    "RoleName": "us-west-2-qa-mongo", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-qa-mongo"
+                }
+            ], 
+            "CreateDate": "2015-11-02T16:47:11Z", 
+            "InstanceProfileName": "us-west-2-qa-mongo", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-mongo"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJETBO6FUYYSJVHFII", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJVBHLBSQTQHA27MXM", 
+                    "CreateDate": "2015-07-14T13:21:12Z", 
+                    "RoleName": "us-west-2-qa-nat", 
+                    "Path": "/us-west-2/qa/nat/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/qa/nat/us-west-2-qa-nat"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:12Z", 
+            "InstanceProfileName": "us-west-2-qa-nat", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-nat"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIMHJOKLJ7MI2LVBE6", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJEQTJ2YHFQMB7DSJQ", 
+                    "CreateDate": "2015-07-14T13:21:11Z", 
+                    "RoleName": "us-west-2-qa-pingfederate", 
+                    "Path": "/us-west-2/qa/pingfederate/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/qa/pingfederate/us-west-2-qa-pingfederate"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:11Z", 
+            "InstanceProfileName": "us-west-2-qa-pingfederate", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-pingfederate"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJSSMXFJP7QDW2RNKS", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIKNLPWS3K6JJONXZI", 
+                    "CreateDate": "2015-07-14T13:21:13Z", 
+                    "RoleName": "us-west-2-qa-postgres", 
+                    "Path": "/us-west-2/qa/postgres/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/qa/postgres/us-west-2-qa-postgres"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:14Z", 
+            "InstanceProfileName": "us-west-2-qa-postgres", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-postgres"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIBSSRO2D6EJ7POTGY", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAI6BJURAJDNARPHV2I", 
+                    "CreateDate": "2015-07-14T13:21:10Z", 
+                    "RoleName": "us-west-2-qa-rabbitmq", 
+                    "Path": "/us-west-2/qa/rabbitmq/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/qa/rabbitmq/us-west-2-qa-rabbitmq"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:10Z", 
+            "InstanceProfileName": "us-west-2-qa-rabbitmq", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-rabbitmq"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIVXGO7SJFYI6Z3JO2", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIL7H74IFM6ZGDZEOO", 
+                    "CreateDate": "2015-07-14T13:19:04Z", 
+                    "RoleName": "us-west-2-qa-tokenservice", 
+                    "Path": "/us-west-2/qa/tokenservice/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/qa/tokenservice/us-west-2-qa-tokenservice"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:19:04Z", 
+            "InstanceProfileName": "us-west-2-qa-tokenservice", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-tokenservice"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIY3SSJ2E36V4FSQ5A", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJIET6VXJK5XXNCQQM", 
+                    "CreateDate": "2015-07-14T13:21:13Z", 
+                    "RoleName": "us-west-2-qa-vpn", 
+                    "Path": "/us-west-2/qa/vpn/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/qa/vpn/us-west-2-qa-vpn"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:13Z", 
+            "InstanceProfileName": "us-west-2-qa-vpn", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-qa-vpn"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIZD6T4HD2L5AZUHZY", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIH7GHJY2XOPOM25YQ", 
+                    "CreateDate": "2015-10-01T13:33:40Z", 
+                    "RoleName": "us-west-2-test-api_nginx", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-test-api_nginx"
+                }
+            ], 
+            "CreateDate": "2015-10-01T13:33:40Z", 
+            "InstanceProfileName": "us-west-2-test-api_nginx", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-api_nginx"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJC2EYVRY2KPXSRB2A", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIELUXRPMFT4UJHTVS", 
+                    "CreateDate": "2015-09-28T15:27:47Z", 
+                    "RoleName": "us-west-2-test-consul", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-test-consul"
+                }
+            ], 
+            "CreateDate": "2015-09-28T15:27:47Z", 
+            "InstanceProfileName": "us-west-2-test-consul", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-consul"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIYTGMGIQWFJ3RCLVS", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJQKJAEAURISUY23SY", 
+                    "CreateDate": "2015-07-14T13:19:13Z", 
+                    "RoleName": "us-west-2-test-eps", 
+                    "Path": "/us-west-2/test/eps/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/test/eps/us-west-2-test-eps"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:19:13Z", 
+            "InstanceProfileName": "us-west-2-test-eps", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-eps"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJM5S3WMSVEUN32Z5U", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJRRQXONA2RWSVSWC2", 
+                    "CreateDate": "2015-11-05T16:50:54Z", 
+                    "RoleName": "us-west-2-test-mongo", 
+                    "Path": "/us-west-2/test/mongo/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/test/mongo/us-west-2-test-mongo"
+                }
+            ], 
+            "CreateDate": "2015-11-05T16:50:54Z", 
+            "InstanceProfileName": "us-west-2-test-mongo", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-mongo"
+        }, 
+        {
+            "InstanceProfileId": "AIPAI344RVJ4LD74I4O4I", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJDOJVJ53V76RBFDLS", 
+                    "CreateDate": "2015-09-28T15:34:28Z", 
+                    "RoleName": "us-west-2-test-mongodb_mongod_and_mongoc", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-test-mongodb_mongod_and_mongoc"
+                }
+            ], 
+            "CreateDate": "2015-09-28T15:34:28Z", 
+            "InstanceProfileName": "us-west-2-test-mongodb_mongod_and_mongoc", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-mongodb_mongod_and_mongoc"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIQJL2DYL42PCA4QYE", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJIC4CZIP252YECOE6", 
+                    "CreateDate": "2015-09-28T15:28:17Z", 
+                    "RoleName": "us-west-2-test-mongodb_mongos", 
+                    "Path": "/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2-test-mongodb_mongos"
+                }
+            ], 
+            "CreateDate": "2015-09-28T15:28:17Z", 
+            "InstanceProfileName": "us-west-2-test-mongodb_mongos", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-mongodb_mongos"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJIFDTQ7KYGHRPKKAK", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIZVA7TRVKXBMGULHE", 
+                    "CreateDate": "2015-07-14T13:21:07Z", 
+                    "RoleName": "us-west-2-test-nat", 
+                    "Path": "/us-west-2/test/nat/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/test/nat/us-west-2-test-nat"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:08Z", 
+            "InstanceProfileName": "us-west-2-test-nat", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-nat"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIWQZ7BHJ6P2G4I2BQ", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJJBNLQDYUMCAHLX3Y", 
+                    "CreateDate": "2015-07-14T13:21:07Z", 
+                    "RoleName": "us-west-2-test-pingfederate", 
+                    "Path": "/us-west-2/test/pingfederate/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/test/pingfederate/us-west-2-test-pingfederate"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:07Z", 
+            "InstanceProfileName": "us-west-2-test-pingfederate", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-pingfederate"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJ57OIP3YDKDIVKGQY", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJFU3GVOIQHCEWDII6", 
+                    "CreateDate": "2015-07-14T13:21:09Z", 
+                    "RoleName": "us-west-2-test-postgres", 
+                    "Path": "/us-west-2/test/postgres/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/test/postgres/us-west-2-test-postgres"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:09Z", 
+            "InstanceProfileName": "us-west-2-test-postgres", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-postgres"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJBBT24IBYLZUSNZEO", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJ74FQZNYRNBX2634W", 
+                    "CreateDate": "2015-07-14T13:21:06Z", 
+                    "RoleName": "us-west-2-test-rabbitmq", 
+                    "Path": "/us-west-2/test/rabbitmq/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/test/rabbitmq/us-west-2-test-rabbitmq"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:06Z", 
+            "InstanceProfileName": "us-west-2-test-rabbitmq", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-rabbitmq"
+        }, 
+        {
+            "InstanceProfileId": "AIPAIMLDCBYRHIJ32M5DM", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAIYSJBUZWPUDBD2WLE", 
+                    "CreateDate": "2015-07-14T13:19:03Z", 
+                    "RoleName": "us-west-2-test-tokenservice", 
+                    "Path": "/us-west-2/test/tokenservice/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/test/tokenservice/us-west-2-test-tokenservice"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:19:03Z", 
+            "InstanceProfileName": "us-west-2-test-tokenservice", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-tokenservice"
+        }, 
+        {
+            "InstanceProfileId": "AIPAJDBJHPABFB5BIGX76", 
+            "Roles": [
+                {
+                    "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17", 
+                        "Statement": [
+                            {
+                                "Action": "sts:AssumeRole", 
+                                "Principal": {
+                                    "Service": "ec2.amazonaws.com"
+                                }, 
+                                "Effect": "Allow", 
+                                "Sid": ""
+                            }
+                        ]
+                    }, 
+                    "RoleId": "AROAJZDVAH6WCEW5VCIUK", 
+                    "CreateDate": "2015-07-14T13:21:08Z", 
+                    "RoleName": "us-west-2-test-vpn", 
+                    "Path": "/us-west-2/test/vpn/", 
+                    "Arn": "arn:aws:iam::716927822216:role/us-west-2/test/vpn/us-west-2-test-vpn"
+                }
+            ], 
+            "CreateDate": "2015-07-14T13:21:09Z", 
+            "InstanceProfileName": "us-west-2-test-vpn", 
+            "Path": "/", 
+            "Arn": "arn:aws:iam::716927822216:instance-profile/us-west-2-test-vpn"
+        }
+    ]
+}
