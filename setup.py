@@ -13,7 +13,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        policies=csmutils.policies:main
         manage=cli:cli
     ''',
 )
