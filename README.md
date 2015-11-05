@@ -22,12 +22,11 @@ If you pull this from the git repo, you will have two folders in the top level
 folder that contain the actual model, and it's templates:
 
 - json: This folder contains the primary model file: `model.json`, as well
-as the `default_roles.json` file.  More on this later.
+as the `properties.json` file, used for processing the model.  More on this later.
 
 - policy_templates: This folder contains the current set of policy templates. The
 templates use jinja2, and get passed the region, env, role, and service variables
 from the model.
-
 
 <h2>The Model</h2>
 
@@ -73,16 +72,39 @@ The model template is a json structure as follows:
   }
 ]
 ```
-Each item in the list of templates (per service) are processed by jinja2, with
-values of the containing region, env, role, and service.  This becomes the
+<h3>Processing the Model</h3>
+The model file itself is processed with jinja2, in order to minimize the
+amount of redundency in the model specification.  The file `properties.json` is
+loaded at runtime, and used as the input to jinja2.  So, if you want to extend
+the model, you can add additional data to that file.  
+
+Along with the data in the properties.json file, the instantiated CSMContext
+object is also available in the `ctx` attribute.  So, for instance, the `orgId`
+attribute in the runtime `CSMContext` is available to jinja as `ctx.orgId`.
+
+<h3>Processing the Templates</h3>
+
+Each service listing in the model contains a set of 1 or more templates.  These
+identify the template files in the `policy_templates` folder (and are named
+the same, but without the `.template` extension).
+
+Each template file is processed by jinja2.  Along with the standard properties,
+and CSMContext, the values of the relevant region, env, and service
+are made available to jinja2.
+
+The processed output becomes the
 policy document that is given to AWS IAM.  Because of the ease with which this
 model allows you to specify policies, this enables you to have very fine grained
 policies, rather than monolithic policies per role.
 
 <h2>Manaage app</h2>
-The manage app has two primary commands:
+The manage app has three primary commands:
 
 - policies: Creates, compares, and updates policies based on the model
 
 - roles: Creates, compares, and updates AWS roles based on the model. Including
 attaching policies.
+
+- model: Show the processed model.  This will show you exactly what the final
+policies look like once processed.  If you want to see the raw json model (after
+processing) use the `model json` command

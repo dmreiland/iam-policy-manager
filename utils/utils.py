@@ -57,16 +57,16 @@ def templateNameFromModel(ctx, service, policy):
 
 def loadModel(ctx):
     ctx.vlog('loadModel: Start')
-    with open('json/'+ctx.defaultRolesFile) as data_file:
-        defaultRoles = json.load(data_file)
-    with open('json/'+ctx.modelFile) as data_file:
-        model = json.load(data_file)
-    for region in model:
-        model[region]['dev'] = defaultRoles
-        model[region]['test'] = defaultRoles
-        model[region]['qa'] = defaultRoles
-        model[region]['prod'] = defaultRoles
-    ctx.vlog('loadModel: Done')
+    #with open('json/'+ctx.defaultRolesFile) as data_file:
+    #    defaultRoles = json.load(data_file)
+    with open('json/'+'properties.json') as data_file:
+        props = json.load(data_file)
+    props['ctx'] = ctx
+    with open('json/'+ctx.modelFile) as fd:
+        modelTemplate = fd.read()
+    jt = Template(modelTemplate)
+    doc = jt.render(props)
+    model = json.loads(doc, object_pairs_hook=OrderedDict)
     return model
 
 
@@ -75,6 +75,10 @@ def loadModelPolicies(ctx):
     if ctx.templates == None:
         ctx.log("Cannot load model policies until templates are loaded")
         sys.exit(1)
+    with open('json/'+'properties.json') as data_file:
+        props = json.load(data_file)
+    props['ctx'] = ctx
+
     modelPolicies = {}
     for region in ctx.model:
         for env in ctx.model[region]:
@@ -94,20 +98,13 @@ def loadModelPolicies(ctx):
                             templateName= "%s" % (policy)
                         '''
                         if policyName not in modelPolicies:
-                            options = {'region':ctx.region, 'env':env, 'role':role, 'service':service}
-                            modelPolicy = renderPolicy(ctx, templateName, options)
+                            props['region'] = ctx.region
+                            props['env'] = env
+                            props['role'] = role
+                            props['service'] = service
+                            modelPolicy = renderPolicy(ctx, templateName, props)
                             modelPolicies[policyName]=modelPolicy
     ctx.vlog('loadModelPolicies: Done')
-    '''
-    # Fix up the default policies
-    for region in modelPolicies:
-        for env in modelPolicies[region]:
-            if '*' in modelPolicies[region][env]:
-                for role in modelPolicies[region][env]:
-                    if role != '*':
-                        modelPolicies[region][env][role].extend(modelPolicies[region][env]['*'])
-                del modelPolicies[region][env]['*']
-    '''
     return modelPolicies
 
 

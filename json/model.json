@@ -1,9 +1,54 @@
 {
-  "us-west-2": {
-    "dev": null,
-    "test": null,
-    "qa": null,
-    "prod": null,
+  {% for region in regions %}
+  "{{region}}": {
+    {% for env in envs %}
+    "{{env}}":{
+      "api_nginx": {
+        "api_nginx":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "consul": {
+        "consul":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "eps": {
+        "eps":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "mongo": {
+        "mongo":["service"],
+        "mongo_backup":["mongo_backup"],
+        "dbscript":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "nat": {
+        "nat":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "pingfederate": {
+        "pingfederate":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "postgres": {
+        "postgres":["service"],
+        "postgres_backup": ["postgres_backup"],
+        "dbscript":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "rabbitmq": {
+        "rabbitmq":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "tokenservice": {
+        "tokenservice":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "vpn": {
+        "vpn":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      }
+    },
+    {% endfor %}
     "infra": {
       "docker_registry": {
         "docker_registry": [ "service" ]
@@ -33,5 +78,6 @@
         "logstash": [ "service" ]
       }
     }
-  }
+  }{%- if not loop.last -%},{%- endif %}
+  {% endfor %}
 }

@@ -1,0 +1,4 @@
+{
+  "regions":["us-west-2"],
+  "envs":["dev","test","qa","prod"]
+}

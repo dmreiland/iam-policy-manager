@@ -52,8 +52,6 @@ def compareModelRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, 
             for role in ctx.model[region][env]:
                 if targetRole != None and role != targetRole:
                     continue
-                if role == '*':
-                    continue
                 roleName,_ = utils.nameAndPath(region, env, role)
                 if targetRoleName != None and roleName != targetRoleName:
                     continue
@@ -69,9 +67,6 @@ def compareModelRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, 
                     ctx.log('Model role found in AWS: ' + roleName)
 
                 policies = getModelRolePolicies(ctx, ctx.region, env, role, roleName)
-                if '*' in ctx.model[region][env]:
-                    defaults = getModelRolePolicies(ctx, ctx.region, env, '*', roleName)
-                    policies.extend(defaults)
                 ctx.vlog('--- model policies: %s' % policies)
                 attached = aws_roles.getAttachedPolicies(ctx, roleName)
                 ctx.vlog('--- attached policies: %s' % attached)

@@ -2,12 +2,13 @@ import sys
 import os
 import click
 import json
-from utils.context import CSMContext
+import csmutils.model as csm_model
 import csmutils.roles as csm_roles
-import awsutils.roles as aws_roles
 import csmutils.policies as csm_policies
+import awsutils.roles as aws_roles
 import awsutils.policies as aws_policies
 import utils.utils as utils
+from utils.context import CSMContext
 
 pass_context = click.make_pass_decorator(CSMContext, ensure=True)
 
@@ -138,16 +139,6 @@ def policies_compare(ctx, region, env, service, policy, no_diff):
 def policies_compare(ctx, region, env, service, policy, constrain):
     csm_policies.updatePolicies(ctx, region, env, service, policy, constrain)
 
-@policies.command('show_model', short_help='Show the model')
-@click.option('-r','--region', help='Create only for this region')
-@click.option('-e','--env', help='Create only for this env')
-@click.option('-i','--role', help='Create only for this role')
-@click.option('-s','--service', help='Create only for this service')
-@click.option('-p','--policy', help='Show only for this policy')
-@pass_context
-def policies_show_model(ctx, region, env, role, service, policy):
-    csm_policies.showModel(ctx, region, env, role, service, policy)
-
 @policies.command('show_aws_policy', short_help='Show an AWs policy')
 @click.option('-r','--region', help='Create only for this region')
 @click.option('-e','--env', help='Create only for this env')
@@ -157,9 +148,33 @@ def policies_show_model(ctx, region, env, role, service, policy):
 def policies_show_aws_policy(ctx, region, env, service, policy):
     csm_policies.showAWSPolicy(ctx,region, env, service, policy)
 
-@policies.command('show_model_policy', short_help='Show an AWs policy')
+@policies.command('show_model_policy', short_help='Show a model policy')
 @click.option('-p','--policy', help='Policy name')
 @pass_context
 def policies_show_model_policy(ctx, policy):
     policyDoc = csm_policies.getModelPolicyDocument(ctx,policy)
     click.echo(json.dumps(policyDoc,indent=4))
+
+
+########################################################################
+##                       Model Commands
+########################################################################
+@cli.group('model', short_help='manage the model')
+@pass_context
+def model(ctx):
+    pass
+
+@model.command('show', short_help='Show the model')
+@click.option('-r','--region', help='Create only for this region')
+@click.option('-e','--env', help='Create only for this env')
+@click.option('-i','--role', help='Create only for this role')
+@click.option('-s','--service', help='Create only for this service')
+@click.option('-p','--policy', help='Show only for this policy')
+@pass_context
+def model_show(ctx, region, env, role, service, policy):
+    csm_model.showModel(ctx, region, env, role, service, policy)
+
+@model.command('json', short_help='Show the instantiated model object')
+@pass_context
+def model_json(ctx):
+    csm_model.showModeJson(ctx)
