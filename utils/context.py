@@ -16,6 +16,7 @@ class CSMContext(object):
         self.region = None
         self.env = None
         self.iam = boto3.client('iam')
+        self.ec2 = boto3.client('ec2')
         self.model = None
         self.currentRoles = []
         self.awsPolicyMeta = {}
@@ -41,6 +42,12 @@ class CSMContext(object):
             msg %= args
         click.echo(msg, file=sys.stderr,color=color)
 
+    def nlog(self, msg, *args, color=None):
+        """Logs a message to stderr."""
+        if args:
+            msg %= args
+        click.echo(msg, file=sys.stderr,color=color, nl=False)
+
     def audit(self, msg, *args, color=None):
         """Logs a message to stderr."""
         if args:
@@ -52,3 +59,7 @@ class CSMContext(object):
         """Logs a message to stderr only if verbose is enabled."""
         if self.verbose:
             self.log(msg, *args)
+    def nvlog(self, msg, *args):
+        """Logs a message to stderr only if verbose is enabled."""
+        if self.verbose:
+            self.nlog(msg, *args)

@@ -145,3 +145,14 @@ class Reorder(object):
         for obj in lorig:
             lnew.append(OrderedDict((k, obj[k]) for k in self.model))
         return lnew
+
+def showPolicyJson(ctx, policyName, policyDoc, offset, width):
+    total = len(policyDoc)
+    lineLen = width - offset
+    begin = 0
+    end = lineLen
+    ctx.log('%*sPolicy: %s: ' % (offset-10,'',policyName))
+    while  begin < total:
+        ctx.log('%*s%s'% (offset,' ', policyDoc[begin:end]))
+        begin += lineLen
+        end += lineLen

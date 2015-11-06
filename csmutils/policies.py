@@ -3,6 +3,7 @@ import os.path
 from collections import OrderedDict
 import json
 import awsutils.policies as aws_policies
+import awsutils.instances as aws_instances
 import utils.utils as utils
 import click
 import difflib
@@ -34,7 +35,7 @@ def getModelPolicyDocument(ctx, policyName):
         policyDoc = ctx.modelPolicies[policyName]
         return policyDoc
 
-def compareModel2AWS(ctx, policyName, meta):
+def compareModel2AWS(ctx, policyName, meta, diff_type, context_lines):
 
     docModel = ['Version','Statement']
     stmtModel = ['Effect','Action','Resource']
@@ -54,11 +55,30 @@ def compareModel2AWS(ctx, policyName, meta):
     ctx.vlog('Fetching Model policy')
     modelPolicy = getModelPolicyDocument(ctx, policyName)
     modelDoc = json.dumps(modelPolicy, indent=4)
-    d = difflib.unified_diff(modelDoc.splitlines(),awsDoc.splitlines(), "AWS","Model", n=0)
-    diff = list(d)
-    if len(diff) == 0:
-        return True, None
-    return False, diff
+    matched = True
+    diff = None
+    if diff_type == 'context':
+        d = difflib.context_diff(modelDoc.splitlines(),awsDoc.splitlines(), "AWS","Model", n=context_lines)
+        dd = list(d)
+        if len(dd) > 0:
+            matched = False
+            diff = dd
+    elif diff_type == 'ndiff':
+        d = difflib.ndiff(modelDoc.splitlines(),awsDoc.splitlines())
+        dd = list(d)
+        for line in dd:
+            if line[0] == '-' or line[0] == '+'  or line[0] == '?':
+                matched = False
+                diff = dd
+
+    else:
+        d = difflib.unified_diff(modelDoc.splitlines(),awsDoc.splitlines(), "AWS","Model", n=context_lines)
+        dd = list(d)
+        if len(dd) > 0:
+            matched = False
+            diff = dd
+
+    return matched, diff
 
 def isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, targetPolicy):
     if targetPolicy != None and policyName != targetPolicy:
@@ -73,7 +93,7 @@ def isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, target
     return True
 
 
-def compareAllPolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, no_diff):
+def compareAllPolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, no_diff, diff_type, context_lines):
     ctx.vlog('createPolicy(targetRegion: %s targetEnv: %s targetService: %s targetPolicy: %s)' % (targetRegion, targetEnv, targetService, targetPolicy))
     for policyName in ctx.modelPolicies:
         if isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, targetPolicy) == False:
@@ -82,7 +102,7 @@ def compareAllPolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy
         if meta == None:
                 ctx.log('Policy not found at AWS: %s' % policyName)
                 continue
-        matched, diff = compareModel2AWS(ctx,policyName, meta)
+        matched, diff = compareModel2AWS(ctx,policyName, meta, diff_type, context_lines)
         if matched:
             ctx.log('%s: MATCHED' % policyName)
         else:
@@ -91,6 +111,7 @@ def compareAllPolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy
                 ctx.log("Diff output...")
                 for line in diff:
                     click.echo(line)
+
 
 def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, constrainToModel):
     for policyName in ctx.modelPolicies:

@@ -135,9 +135,6 @@ def deletePolicy(ctx, policyName):
     iam.delete_policy(PolicyArn=policyArn)
     ctx.audit('Deleted policy %s' % (policyName))
 
-
-
-
 def createPolicy(ctx, policyName, policyDocument):
     ctx.vlog('iam.create_policy(PolicyName=%s, PolicyDocument=%s)'%(policyName, policyDocument))
     iam = ctx.iam

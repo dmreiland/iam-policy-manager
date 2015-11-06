@@ -4,6 +4,8 @@ import boto3
 import json
 import utils.utils as utils
 import awsutils.policies as aws_policies
+import awsutils.instances as aws_instances
+import awsutils.profiles as aws_profiles
 
 
 def getAllRoles(ctx):
@@ -74,25 +76,34 @@ def detachAllPolicies(ctx, roleName):
 
 def deleteRole(ctx, roleName):
     iam = ctx.iam
-    try:
-        iam.remove_role_from_instance_profile(InstanceProfileName=roleName, RoleName=roleName)
-        ctx.audit('Removed role %s from instance: %s' % (roleName, roleName))
-    except:
-        pass
-    try:
-        iam.delete_instance_profile(InstanceProfileName=roleName)
-        ctx.audit('Deleted instance profile: %s' % roleName)
-    except:
-        pass
-    try:
-        detachAllPolicies(ctx,roleName)
-    except:
-        pass
-    try:
+    # First, find out if there are any active instances using the role.  If so,
+    # then deleting it will likely break the running instance.
+    instanceProfiles,_ = aws_profiles.getInstanceProfilesForRoleName(ctx, roleName)
+    inUses = []
+    for instanceProfile in instanceProfiles:
+        instanceProfileId = instanceProfile['InstanceProfileId']
+        instances, instancesByProfileId = aws_instances.getInstancesByIAMInstanceProfileId(ctx, instanceProfile['Arn'])
+        for instance in instances:
+
+                        fullName = aws_instances.getTag(ctx, instance['Tags'], 'FullName')
+                        state = instance['State']['Name']
+                        if state != 'terminated':
+                            inUses.append({'fullName':fullName,'state':state, 'profileId':instanceProfileId})
+    if len(inUses) > 0:
+        ctx.log('Error:  Cannot delete role %s.  The following active instances are attached: ' % (roleName))
+        for entry in inUses:
+            ctx.log('    Instance: %-25s  State: %-10s  Profile ID: %s' % (entry['fullName'], entry['state'], entry['profileId']))
+        ctx.log('These instance must be terminated before the role can be deleted')
+        return
+
+    aws_profiles.removeRoleFromProfile(ctx, roleName, profileName)
+    aws_profiles.deleteInstanceProfile(ctx, profileName)
+    detachAllPolicies(ctx,roleName)
+    if ctx.dry_run:
+        ctx.log('iam.delete_role(RoleName=roleName)' % (roleName))
+    else:
         iam.delete_role(RoleName=roleName)
         ctx.audit('Deleted role: %s' % roleName)
-    except:
-        pass
 
 def createRole(ctx, region, env, role):
     iam = ctx.iam

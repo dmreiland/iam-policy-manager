@@ -28,18 +28,7 @@ def showModel(ctx, targetRegion, targetEnv, targetRole, targetService, targetPol
                             continue
                         templateName = utils.templateNameFromModel(ctx, service, policy)
                         modelPolicy = json.dumps(ctx.modelPolicies[policyName])
-                        width = 120
-                        total = len(modelPolicy)
-                        lineLen = width - 30
-                        begin = 0
-                        end = lineLen
-                        click.echo('%20sPolicy: %s: ' % ('',policyName))
-                        while  begin < total:
-                            click.echo('%30s%s'% (' ', modelPolicy[begin:end]))
-                            begin += lineLen
-                            end += lineLen
-
-
+                        utils.showPolicyJson(ctx, policyName, modelPolicy, 30, 120)
 
 
 def printTemplates(ctx):

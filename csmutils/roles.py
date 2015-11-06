@@ -126,7 +126,7 @@ def compareRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, compa
 
 
 
-def showAwsRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName):
+def showRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName):
     for role in ctx.currentRoles:
         roleName = role['RoleName']
         if targetRoleName != None and roleName != targetRoleName:
@@ -142,8 +142,8 @@ def showAwsRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName):
         ctx.log('Role: %s: %d attached policies:' % (roleName, len(attached)))
         for policyName in attached:
             policyDoc = csm_policies.getAWSPolicyDocument(ctx,policyName)
-            ctx.log('   %s:  %s'% (policyName, json.dumps(policyDoc)))
-
+            utils.showPolicyJson(ctx, policyName, json.dumps(policyDoc), 15, 120)
+        ctx.log('')
 
 def roleExists(ctx, name):
     try:
