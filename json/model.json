@@ -39,6 +39,13 @@
         "rabbitmq":["service"],
         "default":["ec2", "summon", "logstash", "logs_backup"]
       },
+      "signal-dispatcher":{
+        "signal-dispatcher":["service"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
+      "signal-transitter":{
+        "default":["ec2", "summon", "logstash", "logs_backup"]
+      },
       "tokenservice": {
         "tokenservice":["service"],
         "default":["ec2", "summon", "logstash", "logs_backup"]

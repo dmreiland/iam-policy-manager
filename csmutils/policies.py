@@ -125,7 +125,7 @@ def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, co
         meta = aws_policies.getPolicyMeta(ctx, policyName)
         policyArn = meta['Arn']
 
-        matched, diff = compareModel2AWS(ctx,policyName, meta)
+        matched, diff = compareModel2AWS(ctx,policyName, meta,'unified',0)
         if matched:
             ctx.log('%s: MATCHED' % policyName)
             continue
