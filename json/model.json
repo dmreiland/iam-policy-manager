@@ -60,9 +60,6 @@
       "docker_registry": {
         "docker_registry": [ "service" ]
       },
-      "gerrit": {
-        "gerrit": [ "service" ]
-      },
       "nexus": {
         "nexus": [ "service" ]
       },
