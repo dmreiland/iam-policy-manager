@@ -26,7 +26,8 @@ def getAWSRoles(ctx):
     aws_roles.getAllRoles(ctx)
 
 
-
+def deleteRole(ctx, roleName):
+    aws_roles.deleteRole(ctx, roleName)
 
 def getModelRolePolicies(ctx, region, env, role, roleName):
     policies = []

@@ -43,7 +43,7 @@
         "signal-dispatcher":["service"],
         "default":["ec2", "summon", "logstash", "logs_backup"]
       },
-      "signal-transitter":{
+      "signal-transmitter":{
         "default":["ec2", "summon", "logstash", "logs_backup"]
       },
       "tokenservice": {
@@ -68,6 +68,14 @@
       },
       "signal_recipient": {
         "signal_recipient": [ "service" ]
+      },
+      "jenkins_master": {
+        "jenkins_master":["service"],
+        "ec2_deployer":["ec2_deployer"],
+        "elb_deployer":["elb_deployer"],
+        "iam_deployer":["iam_deployer"],
+        "route53_deployer":["route53_deployer"],
+        "default":["ec2", "summon", "logstash", "logs_backup"]
       }
     },
     "corp": {

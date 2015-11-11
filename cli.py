@@ -93,7 +93,7 @@ def roles_show_aws(ctx,region, env, role, rolename):
 @click.option('--rolename', help='Role in region-env-role format')
 @pass_context
 def roles_delete_aws(ctx, rolename):
-    aws_roles.deleteRole(ctx, rolename)
+    csm_roles.deleteRole(ctx, rolename)
 
 ########################################################################
 ##                       Manage Instance Profiles

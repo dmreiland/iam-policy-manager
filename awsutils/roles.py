@@ -96,8 +96,11 @@ def deleteRole(ctx, roleName):
         ctx.log('These instance must be terminated before the role can be deleted')
         return
 
-    aws_profiles.removeRoleFromProfile(ctx, roleName, profileName)
-    aws_profiles.deleteInstanceProfile(ctx, profileName)
+    for instanceProfile in instanceProfiles:
+        instanceProfileName = instanceProfile['InstanceProfileName']
+        aws_profiles.removeRoleFromProfile(ctx, roleName, instanceProfileName)
+        aws_profiles.deleteInstanceProfile(ctx, instanceProfileName)
+
     detachAllPolicies(ctx,roleName)
     if ctx.dry_run:
         ctx.log('iam.delete_role(RoleName=roleName)' % (roleName))
