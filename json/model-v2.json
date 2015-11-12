@@ -1,0 +1,152 @@
+{%  set regions = ['us-west-2'] %}
+{% set productEnvs = ['dev', 'test', 'qa', 'prod'] %}
+{#
+  The following services just need a summon policy.  If the service
+   needs more policies, then don't define it here.
+#}
+{% set services = ['api_nginx', 'consul', 'dbscript', 'elastalert', 'eps',
+   'mongo', 'nat', 'pingfederate', 'postgres', 'rabbitmq', 'signal-dispatcher',
+  'signal-transmitter', 'tokenservice', 'vpn'] %}
+{#
+  The following list is the set of 'default' policies.  These need to be
+  defined for every env. To make controlling commas easier, always ensure This
+  is the last block in its env
+#}
+{% set defaults = ['ec2', 'logstash', 'logs_backup'] %}
+{
+  "policies":{
+    {% for region in regions %}
+    "{{region}}": {
+      {% for env in productEnvs %}
+      "{{env}}":{
+        {% for service in services %}
+        "{{service}}": {
+            "{{region}}-{{env}}-{{service}}-summon":"summon.template"
+        },
+        {% endfor %}
+        {% set dbs = ['mongo', 'postgres'] %}
+        {% for db in dbs %}
+        "{{db}}_backup":{
+          "{{region}}-{{env}}-{{db}}_backup":"{{db}}_backup.template"
+        },
+        {% endfor %}
+        "default": {
+          {% for def in defaults %}
+          "{{region}}-{{env}}-default-{{def}}":"default.{{def}}.template"{%- if not loop.last -%},{%- endif %}
+          {% endfor %}
+        }
+      },
+      {% endfor %}
+      {% set env = 'infra' %}
+      "{{env}}": {
+        {% set infraServices = ['docker_registry','jenkins_master', 'nexus', 'signal_recipient'] %}
+        {% for service in infraServices %}
+        "{{service}}": {
+            "{{region}}-{{env}}-{{service}}-summon":"summon.template"
+        },
+        {% endfor %}
+        {% set deployers = ['ec2', 'elb', 'iam', 'route53'] %}
+        {% for deployer in deployers %}
+        "{{deployer}}_deployer":{
+          "{{region}}-{{env}}-{{deployer}}_deployer":"{{deployer}}_deployer.template"
+        },
+        {% endfor %}
+        "default": {
+          {% for def in defaults %}
+          "{{region}}-{{env}}-default-{{def}}":"default.{{def}}.template"{%- if not loop.last -%},{%- endif %}
+          {% endfor %}
+        }
+      },
+      {% set env = 'corp' %}
+      "{{env}}": {
+        {% set corpServices = ['es', 'icinga', 'logstash', 'elastalert', 'kibana'] %}
+        {% for service in corpServices %}
+        "{{service}}": {
+            "{{region}}-{{env}}-{{service}}-summon":"summon.template"
+        },
+        {% endfor %}
+        "default": {
+          {% for def in defaults %}
+          "{{region}}-{{env}}-default-{{def}}":"default.{{def}}.template"{%- if not loop.last -%},{%- endif %}
+          {% endfor %}
+        }
+      }
+    }{%- if not loop.last -%},{%- endif %}
+    {% endfor %}
+  },
+
+  "roles":{
+    {% for region in regions %}
+    "{{region}}": {
+      {% for env in productEnvs %}
+      "{{env}}":{
+        {% set standardRoles = ['api_nginx', 'consul', 'eps', 'nat',
+          'pingfederate', 'rabbitmq', 'signal-dispatcher', 'signal-transmitter',
+          'vpn', 'tokenservice'] %}
+        {% for role in standardRoles %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon",
+          "{{region}}-{{env}}-default-ec2",
+          "{{region}}-{{env}}-default-logstash",
+          "{{region}}-{{env}}-default-logs_backup"
+        ],
+        {% endfor %}
+        {% set role = 'mongo' %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon",
+          "{{region}}-{{env}}-{{role}}_backup",
+          "{{region}}-{{env}}-dbscript-summon",
+          "{{region}}-{{env}}-default-ec2",
+          "{{region}}-{{env}}-default-logstash",
+          "{{region}}-{{env}}-default-logs_backup"
+        ],
+        {% set role = 'postgres' %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon",
+          "{{region}}-{{env}}-{{role}}_backup",
+          "{{region}}-{{env}}-dbscript-summon",
+          "{{region}}-{{env}}-default-ec2",
+          "{{region}}-{{env}}-default-logstash",
+          "{{region}}-{{env}}-default-logs_backup"
+        ]
+      },
+      {% endfor %}
+      {% set env = 'infra' %}
+      "{{env}}": {
+        {% set roles = ['docker_registry', 'nexus', 'signal_recipient'] %}
+        {%  for role in roles %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon"
+        ],
+        {% endfor %}
+        {% set role = 'jenkins_master' %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon",
+          "{{region}}-{{env}}-ec2_deployer",
+          "{{region}}-{{env}}-elb_deployer",
+          "{{region}}-{{env}}-iam_deployer",
+          "{{region}}-{{env}}-route53_deployer",
+          "{{region}}-{{env}}-default-ec2",
+          "{{region}}-{{env}}-default-logstash",
+          "{{region}}-{{env}}-default-logs_backup",
+          "{{region}}-prod-mongo-summon"
+        ]
+      },
+      {% set env = 'corp' %}
+      "{{env}}": {
+        {% set roles = ['es', 'icinga', 'logstash'] %}
+        {%  for role in roles %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon"
+        ],
+        {% endfor %}
+        {% set role = 'kibana' %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon",
+          "{{region}}-{{env}}-elastalert-summon"
+        ]
+      }
+    }{%- if not loop.last -%},{%- endif %}
+    {% endfor %}
+  }
+}

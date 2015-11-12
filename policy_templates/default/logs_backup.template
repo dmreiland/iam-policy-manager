@@ -3,11 +3,11 @@
   "Statement": [
     {
       "Effect": "Allow",
-      "Resource": [
-                  "arn:aws:s3:::confyrm-{{env}}-logs-backup/*"
-              ],
       "Action": [
                   "s3:PutObject"
+              ],
+      "Resource": [
+                  "arn:aws:s3:::confyrm-{{env}}-logs-backup/*"
               ]
           }
       ]

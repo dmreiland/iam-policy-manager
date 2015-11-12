@@ -29,31 +29,21 @@ def getAWSRoles(ctx):
 def deleteRole(ctx, roleName):
     aws_roles.deleteRole(ctx, roleName)
 
-def getModelRolePolicies(ctx, region, env, role, roleName):
-    policies = []
-    for service in ctx.model[region][env][role]:
-        for policy in ctx.model[region][env][role][service]:
-            policyName = utils.policyNameFromModel(ctx, region, env, role, service, policy)
-            policies.append(policyName)
-    return policies
 
 '''
 Look to see if all the roles in the model exist, and there are no
 roles that exist outside the model
 '''
 def compareModelRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, compareOnly, constrainToModel):
-
-    for region in ctx.model:
+    ctxRoles = ctx.model['roles']
+    for region in ctxRoles:
         if targetRegion != None and region != targetRegion:
             continue
-        for env in ctx.model[region]:
+        for env in ctxRoles[region]:
             defaults = None
             if targetEnv != None and env != targetEnv:
                 continue
-            for role in ctx.model[region][env]:
-                if targetRole != None and role != targetRole:
-                    continue
-                roleName,_ = utils.nameAndPath(region, env, role)
+            for roleName in ctxRoles[region][env]:
                 if targetRoleName != None and roleName != targetRoleName:
                     continue
                 if not aws_roles.roleExists(ctx,roleName):
@@ -67,7 +57,7 @@ def compareModelRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, 
                 else:
                     ctx.log('Model role found in AWS: ' + roleName)
 
-                policies = getModelRolePolicies(ctx, ctx.region, env, role, roleName)
+                policies = ctxRoles[region][env][roleName]
                 ctx.vlog('--- model policies: %s' % policies)
                 attached = aws_roles.getAttachedPolicies(ctx, roleName)
                 ctx.vlog('--- attached policies: %s' % attached)
@@ -146,14 +136,14 @@ def showRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName):
             utils.showPolicyJson(ctx, policyName, json.dumps(policyDoc), 15, 120)
         ctx.log('')
 
-def roleExists(ctx, name):
+def roleExists(ctx, roleName):
     try:
-        region, env, role = utils.regionEnvAndRole(name)
-        if env not in ctx.model[region]:
+        region, env, _ = utils.regionEnvAndRole(roleName)
+        if env not in ctx.model['roles'][region]:
             return False
         else:
-            if role not in ctx.model[region][env]:
-                return false
+            if roleName not in ctx.model['roles'][region][env]:
+                return False
             else:
                 return True
     except:

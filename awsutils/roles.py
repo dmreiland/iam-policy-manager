@@ -50,7 +50,7 @@ def attachPolicy(ctx, roleName, policyName):
             roleName, policyArn))
     else:
         msp = iam.attach_role_policy(RoleName=roleName, PolicyArn=policyArn)
-        ctx.log('Attached policy %s to role %s' % (policyName, roleName))
+        ctx.audit('Attached policy %s to role %s' % (policyName, roleName))
 
 def detachPolicy(ctx, roleName, policyName):
     iam = ctx.iam
@@ -60,11 +60,9 @@ def detachPolicy(ctx, roleName, policyName):
         sys.exit(1)
     policyArn = meta['Arn']
     if ctx.dry_run:
-        ctx.log('iam.detach_role_policy(RoleName=roleName, PolicyArn=policyArn)' % (roleName, policyArn))
+        ctx.log('iam.detach_role_policy(RoleName=%s, PolicyArn=%s)' % (roleName, policyArn))
     else:
-        ctx.log('detachPolicy: calling detach_role_policy with %s, %s' % (roleName, policyName))
         msp = iam.detach_role_policy(RoleName=roleName, PolicyArn=policyArn)
-        ctx.log('detachPolicy: detach_role_policy returned, %s' % (msp))
         ctx.audit('Detached policy %s from role %s' % (policyName, roleName) )
 
 
@@ -140,7 +138,7 @@ def createRole(ctx, region, env, role):
         return
     ctx.audit('Attached role %s to instance profile: %s' % (roleName, roleName))
 
-    ctx.log('Role created: %s' % msp['Role']['Arn'])
+    ctx.vlog('Role created: %s' % msp['Role']['Arn'])
     ctx.currentRoles.append(msp['Role'])
 
 def roleExists(ctx, roleName):

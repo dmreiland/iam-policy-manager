@@ -36,7 +36,7 @@ def getPolicyMeta(ctx, policyName):
         ctx.vlog('getPolicyMeta: %s is not in cache.  Attempting to fetch' % policyName)
         fetchPolicy(ctx, policyName)
     if policyName not in ctx.awsPolicyMeta:
-        ctx.log('getPolicyMeta: %s was not found in AWS' % policyName)
+        ctx.vlog('getPolicyMeta: %s was not found in AWS' % policyName)
         return None
     return ctx.awsPolicyMeta[policyName]
 
@@ -132,6 +132,9 @@ def deletePolicy(ctx, policyName):
             deletePolicyVersion(ctx, policyArn, versionId)
 
     # delete the policy
+    if ctx.dry_run:
+        ctx.log('delete_policy(PolicyArn=%s)' % (policyArn))
+        return
     iam.delete_policy(PolicyArn=policyArn)
     ctx.audit('Deleted policy %s' % (policyName))
 
@@ -144,7 +147,7 @@ def createPolicy(ctx, policyName, policyDocument):
     mps = iam.create_policy(PolicyName=policyName, PolicyDocument=policyDocument)
     ctx.audit('Created policy %s with %s' % (policyName, policyDocument))
     if mps['ResponseMetadata']['HTTPStatusCode'] == 200:
-        ctx.log('Policy created: %s' % mps['Policy']['Arn'])
+        ctx.vlog('Policy created: %s' % mps['Policy']['Arn'])
         storePolicyMeta(ctx, mps['Policy'])
         getDefaultPolicyVersion(ctx, mps['Policy']['PolicyName'])
     ctx.vlog(mps)

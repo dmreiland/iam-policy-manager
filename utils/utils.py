@@ -57,12 +57,9 @@ def templateNameFromModel(ctx, service, policy):
 
 def loadModel(ctx):
     ctx.vlog('loadModel: Start')
-    #with open('json/'+ctx.defaultRolesFile) as data_file:
-    #    defaultRoles = json.load(data_file)
-    with open('json/'+'properties.json') as data_file:
-        props = json.load(data_file)
+    props = {}
     props['ctx'] = ctx
-    with open('json/'+ctx.modelFile) as fd:
+    with open(ctx.modelFile) as fd:
         modelTemplate = fd.read()
     jt = Template(modelTemplate)
     doc = jt.render(props)
@@ -75,32 +72,19 @@ def loadModelPolicies(ctx):
     if ctx.templates == None:
         ctx.log("Cannot load model policies until templates are loaded")
         sys.exit(1)
-    with open('json/'+'properties.json') as data_file:
-        props = json.load(data_file)
+    props = {}
     props['ctx'] = ctx
 
     modelPolicies = {}
-    for region in ctx.model:
-        for env in ctx.model[region]:
-            for role in ctx.model[region][env]:
-                for service in ctx.model[region][env][role]:
-                    for policy in ctx.model[region][env][role][service]:
-                        policyName = policyNameFromModel(ctx, region, env, role, service, policy)
-                        templateName = templateNameFromModel(ctx, service, policy)
-                        '''
-                        if policy == 'service' or policy == service:
-                            policyName='%s-%s-%s' % (region, env, service)
-                        else:
-                            policyName='%s-%s-%s-%s' % (region, env, service, policy)
-                        if service == 'default':
-                            templateName= "%s.%s" % (service, policy)
-                        else:
-                            templateName= "%s" % (policy)
-                        '''
+    ctxPolicies = ctx.model['policies']
+    for region in ctxPolicies:
+        for env in ctxPolicies[region]:
+            for service in ctxPolicies[region][env]:
+                    for policyName in ctxPolicies[region][env][service]:
+                        templateName =  ctxPolicies[region][env][service][policyName]
                         if policyName not in modelPolicies:
                             props['region'] = ctx.region
                             props['env'] = env
-                            props['role'] = role
                             props['service'] = service
                             modelPolicy = renderPolicy(ctx, templateName, props)
                             modelPolicies[policyName]=modelPolicy
@@ -119,11 +103,11 @@ def loadPolicyTemplates(ctx):
         if file == 'default':
             continue
         with open(path+'/'+file, "r") as fd:
-            templates[file.split('.')[0]] = fd.read()
+            templates[file] = fd.read()
     path = ctx.templateDir+'/default'
     for file in os.listdir(path):
         with open(path+'/'+file, "r") as fd:
-            templates['default.' + file.split('.')[0]] = fd.read()
+            templates['default.' + file] = fd.read()
     ctx.vlog('loadPolicyTemplates: Done')
     return templates
 

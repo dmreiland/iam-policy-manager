@@ -19,7 +19,7 @@ pass_context = click.make_pass_decorator(CSMContext, ensure=True)
               help='Enables verbose mode.')
 @click.option('--default_roles_file', default='default_roles.json',
               help='Default roles model file')
-@click.option('--model_file', default='model.json',
+@click.option('--model_file', default='json/model-v2.json',
               help='Model file')
 @click.option('--templates_folder', default='policy_templates',
               help='Policy templates folder')
@@ -159,9 +159,10 @@ def policies_compare(ctx, region, env, service, policy, no_diff, diff_type, cont
 @click.option('-s','--service', help='Create only for this service')
 @click.option('-p','--policy', help='Show only for this policy')
 @click.option('--constrain', is_flag=True, default=False,help='Constrain policies to the model')
+@click.option('--force', is_flag=True, default=False,help='Force a document upgrade, even if it matches')
 @pass_context
-def policies_compare(ctx, region, env, service, policy, constrain):
-    csm_policies.updatePolicies(ctx, region, env, service, policy, constrain)
+def policies_update(ctx, region, env, service, policy, constrain, force):
+    csm_policies.updatePolicies(ctx, region, env, service, policy, constrain, force)
 
 @policies.command('show_aws_policy', short_help='Show an AWs policy')
 @click.option('-r','--region', help='Create only for this region')

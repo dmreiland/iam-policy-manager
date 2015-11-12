@@ -17,7 +17,7 @@ policyTemplates={}
 
 
 def getAWSPolicies(ctx):
-    ctx.vlog('getAWSPolicies: Getting all policy metadata from AWS')
+    ctx.log('getAWSPolicies: Getting all policy metadata from AWS')
     aws_policies.getAllPolicies(ctx)
 
 def getAWSPolicyDocument(ctx, policyName):
@@ -80,6 +80,13 @@ def compareModel2AWS(ctx, policyName, meta, diff_type, context_lines):
 
     return matched, diff
 
+def compareAWS2Model(ctx):
+    for policyName in ctx.awsPolicyMeta:
+        meta = ctx.awsPolicyMeta[policyName]
+        if policyName not in ctx.modelPolicies:
+            attachments = meta['AttachmentCount']
+            ctx.log('%s is in the model, and has %d' % (policyName, attachments))
+
 def isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, targetPolicy):
     if targetPolicy != None and policyName != targetPolicy:
         return False
@@ -94,7 +101,7 @@ def isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, target
 
 
 def compareAllPolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, no_diff, diff_type, context_lines):
-    ctx.vlog('createPolicy(targetRegion: %s targetEnv: %s targetService: %s targetPolicy: %s)' % (targetRegion, targetEnv, targetService, targetPolicy))
+
     for policyName in ctx.modelPolicies:
         if isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, targetPolicy) == False:
             continue
@@ -112,24 +119,31 @@ def compareAllPolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy
                 for line in diff:
                     click.echo(line)
 
+        #compareAWS2Model(ctx)
 
-def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, constrainToModel):
+def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, constrainToModel, force):
     for policyName in ctx.modelPolicies:
         if isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, targetPolicy) == False:
             continue
         meta = aws_policies.getPolicyMeta(ctx, policyName)
         if meta == None:
+            ctx.log('Model policy not found in AWS: %s' % policyName)
             createPolicy(ctx, None, None, None, policyName)
-            if ctx.dry_run:
-                continue
-        meta = aws_policies.getPolicyMeta(ctx, policyName)
+            continue
+
+        ctx.log('Model policy found in AWS: %s.  Comparing policy document' % policyName)
         policyArn = meta['Arn']
 
-        matched, diff = compareModel2AWS(ctx,policyName, meta,'unified',0)
-        if matched:
-            ctx.log('%s: MATCHED' % policyName)
-            continue
-        if constrainToModel:
+        if force:
+            ctx.log('Forcing an update.  No compare necessary.')
+        else:
+            matched, diff = compareModel2AWS(ctx,policyName, meta,'unified',0)
+            if matched:
+                ctx.log('%s: MATCHED.  Noting to update.' % policyName)
+                continue
+            ctx.log('%s: DID NOT MATCH' % policyName)
+
+        if force or constrainToModel:
             # Need to update the policy.  Get the number of
             versions = aws_policies.getPolicyVersions(ctx,meta['Arn'])
             if len(versions) >= 5:
@@ -141,7 +155,7 @@ def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, co
                         aws_policies.deletePolicyVersion(ctx,policyArn, version)
                         break
             modelPolicy = getModelPolicyDocument(ctx, policyName)
-            policyDocument = json.dumps(modelPolicy)
+            policyDocument = json.dumps(modelPolicy, indent=4)
             aws_policies.createPolicyVersion(ctx, policyArn, policyDocument)
 
 
@@ -160,7 +174,7 @@ def createPolicy(ctx, targetRegion, targetEnv, targetService, targetPolicy):
         if modelPolicy == None:
             ctx.log('Error: %s does not exist in the model' % policyName)
             continue
-        policyDocument = json.dumps(modelPolicy)
+        policyDocument = json.dumps(modelPolicy, indent=4)
         ctx.log('Creating policy : %s' % policyName)
         aws_policies.createPolicy(ctx, policyName, policyDocument)
 
