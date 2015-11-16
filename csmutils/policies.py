@@ -80,13 +80,6 @@ def compareModel2AWS(ctx, policyName, meta, diff_type, context_lines):
 
     return matched, diff
 
-def compareAWS2Model(ctx):
-    for policyName in ctx.awsPolicyMeta:
-        meta = ctx.awsPolicyMeta[policyName]
-        if policyName not in ctx.modelPolicies:
-            attachments = meta['AttachmentCount']
-            ctx.log('%s is in the model, and has %d' % (policyName, attachments))
-
 def isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, targetPolicy):
     if targetPolicy != None and policyName != targetPolicy:
         return False
@@ -107,19 +100,17 @@ def compareAllPolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy
             continue
         meta = aws_policies.getPolicyMeta(ctx, policyName)
         if meta == None:
-                ctx.log('Policy not found at AWS: %s' % policyName)
+                ctx.log(click.style('Policy not found at AWS: %s' % policyName, fg='cyan'))
                 continue
         matched, diff = compareModel2AWS(ctx,policyName, meta, diff_type, context_lines)
         if matched:
             ctx.log('%s: MATCHED' % policyName)
         else:
-            ctx.log('%s: NOT MATCHED' % policyName)
+            ctx.log(click.style('%s: NOT MATCHED' % policyName, fg='cyan'))
             if not no_diff and diff != None:
                 ctx.log("Diff output...")
                 for line in diff:
                     click.echo(line)
-
-        #compareAWS2Model(ctx)
 
 def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, constrainToModel, force):
     for policyName in ctx.modelPolicies:
@@ -127,7 +118,7 @@ def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, co
             continue
         meta = aws_policies.getPolicyMeta(ctx, policyName)
         if meta == None:
-            ctx.log('Model policy not found in AWS: %s' % policyName)
+            ctx.log('Adding model policy not found in AWS: %s' % policyName)
             createPolicy(ctx, None, None, None, policyName)
             continue
 
@@ -141,8 +132,8 @@ def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, co
             if matched:
                 ctx.log('%s: MATCHED.  Noting to update.' % policyName)
                 continue
-            ctx.log('%s: DID NOT MATCH' % policyName)
 
+        ctx.log('%s: DID NOT MATCH' % policyName)
         if force or constrainToModel:
             # Need to update the policy.  Get the number of
             versions = aws_policies.getPolicyVersions(ctx,meta['Arn'])
@@ -196,3 +187,13 @@ def showAWSPolicy(ctx, targetRegion, targetEnv, targetService, targetPolicy):
             click.echo(json.dumps(policyDocument))
             click.echo('-------------------------------------')
             click.echo('')
+
+def showAWS(ctx, notInModel, unattached):
+    for policyName in ctx.awsPolicyMeta:
+        meta = ctx.awsPolicyMeta[policyName]
+        attachments = meta['AttachmentCount']
+        if unattached and attachments > 0:
+            continue
+        if notInModel and policyName in ctx.modelPolicies:
+            continue
+        ctx.log(click.style('%s is not in the model, and has %d attached entities' % (policyName, attachments),fg='cyan'))

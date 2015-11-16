@@ -1,6 +1,7 @@
 import sys
 import os.path
 import json
+import click
 import awsutils.roles as aws_roles
 import awsutils.policies as aws_policies
 import csmutils.policies as csm_policies
@@ -26,108 +27,142 @@ def getAWSRoles(ctx):
     aws_roles.getAllRoles(ctx)
 
 
-def deleteRole(ctx, roleName):
-    aws_roles.deleteRole(ctx, roleName)
+def deleteRole(ctx, role):
+    aws_roles.deleteRole(ctx, role)
 
 
 '''
 Look to see if all the roles in the model exist, and there are no
 roles that exist outside the model
 '''
-def compareModelRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, compareOnly, constrainToModel):
+def compareModelRoles(ctx, targetRegion, targetEnv, targetRole):
     ctxRoles = ctx.model['roles']
     for region in ctxRoles:
         if targetRegion != None and region != targetRegion:
             continue
         for env in ctxRoles[region]:
-            defaults = None
+            #defaults = None
             if targetEnv != None and env != targetEnv:
                 continue
-            for roleName in ctxRoles[region][env]:
-                if targetRoleName != None and roleName != targetRoleName:
+            for role in ctxRoles[region][env]:
+                if targetRole != None and role != targetRole:
                     continue
-                if not aws_roles.roleExists(ctx,roleName):
-                    if compareOnly:
-                        ctx.log('Model role not found in AWS: ' + roleName)
-                        continue
-                    ctx.vlog('Adding missing role to AWS: %s' % roleName)
-                    aws_roles.createRole(ctx, region, env, role)
-                    if ctx.dry_run:
-                        continue
-                else:
-                    ctx.log('Model role found in AWS: ' + roleName)
+                if not aws_roles.isRoleInAWS(ctx,role):
+                    ctx.log(click.style('Model role not found in AWS: ' + role, fg='cyan'))
+                    continue
 
-                policies = ctxRoles[region][env][roleName]
-                ctx.vlog('--- model policies: %s' % policies)
-                attached = aws_roles.getAttachedPolicies(ctx, roleName)
-                ctx.vlog('--- attached policies: %s' % attached)
-                missing = []
+                ctx.log('Model role found in AWS: ' + role)
+
+                policies = set(ctxRoles[region][env][role])
+                attached = set(aws_roles.getAttachedPolicies(ctx, role))
+
+                missing = policies.difference(attached)
                 policiesMatch = True
-                for p in policies:
-                    if p not in attached:
-                        missing.append(p)
-                        policiesMatch = False
                 if len(missing) > 0:
-                    if compareOnly:
-                        ctx.log('-- Missiing attached policies: %s' % missing)
-                    else:
-                        for policyName in missing:
-                            ctx.log('-- Attaching policy: %s' % policyName)
-                            aws_roles.attachPolicy(ctx, roleName, policyName)
+                    policiesMatch = False
+                    ctx.log(click.style('-- Missiing attached policies: %s' % missing, fg='cyan'))
 
-                missing = []
-                for p in attached:
-                    if p not in policies:
-                        missing.append(p)
-                        policiesMatch = False
+                extra = attached.difference(policies)
                 if len(missing) > 0:
-                    if compareOnly:
-                        ctx.log('-- Attached policies not in model: %s' % missing)
-                    else:
-                        if constrainToModel:
-                            for policyName in missing:
-                                ctx.log('-- Unattaching policy: %s' % policyName)
-                                aws_roles.detachPolicy(ctx, roleName, policyName)
+                    policiesMatch = False
+                    ctx.log(click.style('-- Attached policies not in model: %s' % missing, fg='cyan'))
 
-                if not policiesMatch and not compareOnly:
-                    ctx.vlog('-- Attached policies do not match model')
+                if policiesMatch:
+                    ctx.log('-- Attached policies conform to model')
 
-def compareAWSRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, compareOnly, constrainToModel):
+def compareAWSRoles(ctx, targetRegion, targetEnv, targetRole):
     for role in ctx.currentRoles:
         roleName = role['RoleName']
-        if targetRoleName != None and roleName != targetRoleName:
+        if targetRole != None and roleName != targetRole:
             continue
-        region, env, role = utils.regionEnvAndRole(roleName)
+        region, env, _ = utils.regionEnvAndRole(roleName)
         if targetRegion != None and region != targetRegion:
             continue
         if targetEnv != None and env != targetEnv:
             continue
-        if targetRole != None and role != targetRole:
-            continue
-        if roleExists(ctx, roleName):
+        if isRoleInModel(ctx, roleName):
             ctx.log('AWS Role: %s is in model' % roleName)
         else:
-            ctx.log('AWS Role: %s is NOT in model' % roleName)
+            ctx.log(click.style('AWS Role: %s is NOT in model' % roleName, fg='cyan'))
 
 
 
-def compareRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, compareOnly, constrainToModel):
-    compareModelRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, compareOnly, constrainToModel)
-    compareAWSRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName, compareOnly, constrainToModel)
+def compareRoles(ctx, targetRegion, targetEnv, targetRole):
+    compareModelRoles(ctx, targetRegion, targetEnv, targetRole)
+    compareAWSRoles(ctx, targetRegion, targetEnv, targetRole)
 
 
+def updateModelRoles(ctx, targetRegion, targetEnv, targetRole, constrainToModel):
+    ctxRoles = ctx.model['roles']
+    for region in ctxRoles:
+        if targetRegion != None and region != targetRegion:
+            continue
+        for env in ctxRoles[region]:
+            #defaults = None
+            if targetEnv != None and env != targetEnv:
+                continue
+            for role in ctxRoles[region][env]:
+                if targetRole != None and role != targetRole:
+                    continue
+                if not aws_roles.isRoleInAWS(ctx, role):
+                    ctx.vlog('Adding missing role to AWS: %s' % role)
+                    aws_roles.createRole(ctx, role)
+                    if ctx.dry_run:
+                        # Since we are not actually creating the role in
+                        # dry_run mode, we can't try to attach policies.
+                        continue
+                else:
+                    ctx.log('Model role found in AWS: ' + role)
 
-def showRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName):
+                policies = set(ctxRoles[region][env][role])
+                attached = set(aws_roles.getAttachedPolicies(ctx, role))
+
+                missing = policies.difference(attached)
+                if len(missing) > 0:
+                    for policyName in missing:
+                        ctx.log('-- Attaching policy: %s' % policyName)
+                        aws_roles.attachPolicy(ctx, roleName, policyName)
+
+                if not constrainToModel:
+                    continue
+
+                # Remove attached policies that are not in the model
+                extra = attached.difference(policies)
+                if len(extra) > 0:
+                    for policyName in extra:
+                        ctx.log('-- Unattaching policy: %s' % policyName)
+                        aws_roles.detachPolicy(ctx, role, policyName)
+
+def updateAWSRoles(ctx, targetRegion, targetEnv, targetRole):
     for role in ctx.currentRoles:
         roleName = role['RoleName']
-        if targetRoleName != None and roleName != targetRoleName:
+        if targetRole != None and roleName != targetRole:
             continue
-        region, env, role = utils.regionEnvAndRole(roleName)
+        region, env, _ = utils.regionEnvAndRole(roleName)
         if targetRegion != None and region != targetRegion:
             continue
         if targetEnv != None and env != targetEnv:
             continue
-        if targetRole != None and role != targetRole:
+        if not isRoleInModel(ctx, roleName):
+            aws_roles.deleteRole(ctx,roleName)
+
+
+
+def updateRoles(ctx, targetRegion, targetEnv, targetRole, constrainToModel):
+    updateModelRoles(ctx, targetRegion, targetEnv, targetRole, constrainToModel)
+    if constrainTomodel:
+        updateAWSRoles(ctx, targetRegion, targetEnv, targetRole)
+
+
+def showRoles(ctx, targetRegion, targetEnv, targetRole):
+    for role in ctx.currentRoles:
+        roleName = role['RoleName']
+        if targetRole != None and roleName != targetRole:
+            continue
+        region, env, _ = utils.regionEnvAndRole(roleName)
+        if targetRegion != None and region != targetRegion:
+            continue
+        if targetEnv != None and env != targetEnv:
             continue
         attached = aws_roles.getAttachedPolicies(ctx, roleName)
         ctx.log('Role: %s: %d attached policies:' % (roleName, len(attached)))
@@ -136,7 +171,7 @@ def showRoles(ctx, targetRegion, targetEnv, targetRole, targetRoleName):
             utils.showPolicyJson(ctx, policyName, json.dumps(policyDoc), 15, 120)
         ctx.log('')
 
-def roleExists(ctx, roleName):
+def isRoleInModel(ctx, roleName):
     try:
         region, env, _ = utils.regionEnvAndRole(roleName)
         if env not in ctx.model['roles'][region]:

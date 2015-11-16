@@ -13,7 +13,7 @@ def getAllRoles(ctx):
     if ctx.env == None:
         mps = iam.list_roles()
     else:
-        mps = iam.list_roles(PathPrefix='/us-west-2/%s' % ctx.env)
+        mps = iam.list_roles(PathPrefix='/%s/%s' % (ctx.region, ctx.env))
 
     ctx.currentRoles.extend(mps['Roles'])
     while mps['IsTruncated']:
@@ -23,8 +23,8 @@ def getAllRoles(ctx):
     for role in ctx.currentRoles:
         if role['Path'] == '/':
             try:
-                region,env,roleName = utils.regionEnvAndRole(role['RoleName'])
-                _,path = utils.nameAndPath(region, env, roleName)
+                region,env,rolePart = utils.regionEnvAndRole(role['RoleName'])
+                _,path = utils.nameAndPath(region, env, rolePart)
                 role['Path'] = path
             except:
                 pass
@@ -106,13 +106,12 @@ def deleteRole(ctx, roleName):
         iam.delete_role(RoleName=roleName)
         ctx.audit('Deleted role: %s' % roleName)
 
-def createRole(ctx, region, env, role):
+def createRole(ctx, roleName):
     iam = ctx.iam
     if ctx.currentRoles == None:
         ctx.vlog('createRole:  Roles must be fetched first')
         return
 
-    roleName, path = utils.nameAndPath(region, env, role)
     assumeRolePolicyDocument = '{"Statement": [{"Action": "sts:AssumeRole", "Principal": {"Service": "ec2.amazonaws.com"}, "Sid": "", "Effect": "Allow"}], "Version": "2012-10-17"}'
     if ctx.dry_run:
         ctx.log('create_role(Path=%s, RoleName=%s,AssumeRolePolicyDocument=%s)' % (path, roleName, assumeRolePolicyDocument))
@@ -141,9 +140,9 @@ def createRole(ctx, region, env, role):
     ctx.vlog('Role created: %s' % msp['Role']['Arn'])
     ctx.currentRoles.append(msp['Role'])
 
-def roleExists(ctx, roleName):
+def isRoleInAWS(ctx, roleName):
     if ctx.currentRoles == None:
-        ctx.vlog('roleExists: Roles must be fetched first')
+        ctx.log('isRoleInAWS: Roles must be fetched first')
         return False
     for role in ctx.currentRoles:
         if role['RoleName'] == roleName:

@@ -10,7 +10,6 @@ class CSMContext(object):
     def __init__(self):
         self.verbose = False
         self.modelFile = None
-        self.defaultRolesFile = None
         self.orgId=None
         self.dry_run = False
         self.region = None

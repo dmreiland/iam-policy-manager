@@ -17,8 +17,6 @@ pass_context = click.make_pass_decorator(CSMContext, ensure=True)
 @click.version_option()
 @click.option('-v', '--verbose', is_flag=True,
               help='Enables verbose mode.')
-@click.option('--default_roles_file', default='default_roles.json',
-              help='Default roles model file')
 @click.option('--model_file', default='json/model-v2.json',
               help='Model file')
 @click.option('--templates_folder', default='policy_templates',
@@ -28,7 +26,7 @@ pass_context = click.make_pass_decorator(CSMContext, ensure=True)
 @click.option('--dry_run', is_flag=True, default=False,
               help='Do not make actual changes to AWS')
 @pass_context
-def cli(ctx, verbose, default_roles_file, model_file, templates_folder, org_id, dry_run):
+def cli(ctx, verbose, model_file, templates_folder, org_id, dry_run):
     if 'AWS_REGION' in os.environ:
         ctx.region = os.environ['AWS_REGION']
     elif 'AWS_DEFAULT_REGION' in os.environ:
@@ -40,7 +38,6 @@ def cli(ctx, verbose, default_roles_file, model_file, templates_folder, org_id, 
     ctx.verbose = verbose
     ctx.dry_run = dry_run
     ctx.modelFile = model_file
-    ctx.defaultRolesFile = default_roles_file
     ctx.templateDir = templates_folder
     ctx.orgId = org_id
 
@@ -61,39 +58,33 @@ def roles(ctx):
 @roles.command('compare', short_help='Compare AWS roles to model')
 @click.option('-r','--region', help='Compare only for this region')
 @click.option('-e','--env', help='Compare only for this env')
-@click.option('-i','--role', help='Compare only for this role')
-@click.option('--rolename', help='Update only for this role in region-env-role format')
+@click.option('--role', help='Update only for this role in region-env-role format')
 @pass_context
-def roles_compare(ctx,region, env, role, rolename):
-    compareOnly = True
-    constrain = False
-    csm_roles.compareRoles(ctx, region, env, role, rolename, compareOnly, constrain)
+def roles_compare(ctx,region, env, role):
+    csm_roles.compareRoles(ctx, region, env, role)
 
 @roles.command('update', short_help='Update AWS roles from model')
 @click.option('-r','--region', help='Update only for this region')
 @click.option('-e','--env', help='Update only for this env')
-@click.option('-i','--role', help='Update only for this role in region, env, role format')
-@click.option('--rolename', help='Update only for this role in region-env-role format')
+@click.option('--role', help='Update only for this role in region-env-role format')
 @click.option('--constrain', is_flag=True, default=False,help='Constrain policies to the model')
 @pass_context
-def roles_update(ctx,region, env, role, rolename, constrain):
-    compareOnly = False
-    csm_roles.compareRoles(ctx, region, env, role, rolename, compareOnly, constrain)
+def roles_update(ctx,region, env, role, constrain):
+    csm_roles.updateRoles(ctx, region, env, role, constrain)
 
 @roles.command('show', short_help='Show AWS roles')
 @click.option('-r','--region', help='Show only for this region')
 @click.option('-e','--env', help='Show only for this env')
-@click.option('-i','--role', help='Show only for this role in region, env, role format')
-@click.option('--rolename', help='Show only for this role in region-env-role format')
+@click.option('--role', help='Show only for this role in region-env-role format')
 @pass_context
-def roles_show_aws(ctx,region, env, role, rolename):
-    csm_roles.showRoles(ctx, region, env, role, rolename)
+def roles_show_aws(ctx,region, env, role):
+    csm_roles.showRoles(ctx, region, env, role)
 
 @roles.command('delete', short_help='Deleta an AWS role')
-@click.option('--rolename', help='Role in region-env-role format')
+@click.option('--role', help='Role in region-env-role format')
 @pass_context
-def roles_delete_aws(ctx, rolename):
-    csm_roles.deleteRole(ctx, rolename)
+def roles_delete_aws(ctx, role):
+    csm_roles.deleteRole(ctx, role)
 
 ########################################################################
 ##                       Manage Instance Profiles
@@ -107,13 +98,12 @@ def profiles(ctx):
 @profiles.command('show', short_help='Show AWS Instance Profiles')
 @click.option('-r','--region', help='Show only for this region')
 @click.option('-e','--env', help='Show only for this env')
-@click.option('-i', '--role', help='Show only for this role')
 @click.option('--profilename', help='Show only for this profile name')
 @click.option('--id', help='Show only for this profile id')
 @click.option('--instances', is_flag=True, help='Show associated instances', default=False)
 @pass_context
-def profiles_show(ctx, region, env, role, profilename, id, instances):
-    csm_profiles.showInstanceProfiles(ctx, region, env, role, profilename, id, instances)
+def profiles_show(ctx, region, env, profilename, id, instances):
+    csm_profiles.showInstanceProfiles(ctx, region, env, profilename, id, instances)
 
 
 ########################################################################
@@ -180,6 +170,13 @@ def policies_show_model_policy(ctx, policy):
     policyDoc = csm_policies.getModelPolicyDocument(ctx,policy)
     click.echo(json.dumps(policyDoc,indent=4))
 
+@policies.command('show_unattached', short_help='Show all unattached policies not in the model')
+@pass_context
+def policies_show_model_policy(ctx):
+    notInModel = True
+    unattached = True
+    csm_policies.showAWS(ctx, notInModel, unattached)
+
 
 ########################################################################
 ##                       Model Commands
@@ -192,12 +189,12 @@ def model(ctx):
 @model.command('show', short_help='Show the model')
 @click.option('-r','--region', help='Create only for this region')
 @click.option('-e','--env', help='Create only for this env')
-@click.option('-i','--role', help='Create only for this role')
+@click.option('--role', help='Create only for this role')
 @click.option('-s','--service', help='Create only for this service')
 @click.option('-p','--policy', help='Show only for this policy')
 @pass_context
 def model_show(ctx, region, env, role, service, policy):
-    csm_model.showModel(ctx, region, env, role, service, policy)
+    csm_model.showModel(ctx, region, env, rolen, service, policy)
 
 @model.command('json', short_help='Show the instantiated model object')
 @pass_context
