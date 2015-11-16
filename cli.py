@@ -194,7 +194,7 @@ def model(ctx):
 @click.option('-p','--policy', help='Show only for this policy')
 @pass_context
 def model_show(ctx, region, env, role, service, policy):
-    csm_model.showModel(ctx, region, env, rolen, service, policy)
+    csm_model.showModel(ctx, region, env, role, service, policy)
 
 @model.command('json', short_help='Show the instantiated model object')
 @pass_context
