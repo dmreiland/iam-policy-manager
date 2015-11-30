@@ -5,10 +5,12 @@ import utils.utils as utils
 import click
 
 def showModeJson(ctx):
-    click.echo(json.dumps(ctx.model, indent=4))
+    click.echo(ctx.dumps(ctx.model, indent=4))
 
 def showModel(ctx, targetRegion, targetEnv, targetRole, targetService, targetPolicy):
     ctxRoles = ctx.model['roles']
+    offset = 0
+    width = 120
     for region in ctxRoles:
         if targetRegion != None and region != targetRegion:
             continue
@@ -16,12 +18,22 @@ def showModel(ctx, targetRegion, targetEnv, targetRole, targetService, targetPol
             if targetEnv != None and env != targetEnv:
                 continue
             for roleName in ctxRoles[region][env]:
-                click.echo('Role: %s: ' % (roleName))
+                if (targetPolicy == None and targetService == None) and targetRole == None:
+                    ctx.log(click.style('Role: %s: ' % (roleName), fg='cyan'))
+                    offset = 10
+                else:
+                    offset = 0
                 for policyName in ctxRoles[region][env][roleName]:
                     if targetPolicy != None and policyName != targetPolicy:
                         continue
-                    modelPolicy = json.dumps(ctx.modelPolicies[policyName])
-                    utils.showPolicyJson(ctx, policyName, modelPolicy, 20, 120)
+                    modelPolicy = ctx.dumps(ctx.modelPolicies[policyName])
+                    if modelPolicy != None:
+                        if targetPolicy == None:
+                            # Don't display the policy name if only 1 policy is
+                            # being shown.
+                            ctx.log(click.style('%*sPolicy: %s: ' % (offset,'',policyName), fg='cyan'))
+                        utils.showPolicyJson(ctx, modelPolicy, offset, width)
+                        #ctx.log(click.wrap_text(modelPolicy, width, '%*s'%(offset,''),'%*s'%(offset,''), True))
 
 
 def printTemplates(ctx):

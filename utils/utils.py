@@ -3,6 +3,10 @@ import json
 import sys
 from collections import OrderedDict
 from jinja2 import Template
+from jinja2 import FileSystemLoader
+from jinja2.environment import Environment
+
+
 
 def nameAndPath(region, env, roleName):
     name = '%s-%s-%s' % (region, env, roleName)
@@ -36,7 +40,16 @@ def policyNameFromArn(ctx, policyArn):
         return parts[-1]
 
 def renderPolicy(ctx, templateName, options):
-    jt = Template(ctx.templates[templateName])
+    if templateName not in ctx.templates:
+        ctx.log('renderPolicy: Error - %s is not in the set of available templates' % templateName)
+        sys.exit(1)
+    if templateName.startswith('default.'):
+        templateName = 'default/%s' % templateName[len('default.'):]
+    env = Environment()
+    env.loader = FileSystemLoader(ctx.templateDir)
+    jt = env.get_template(templateName)
+    #jt = Template(templateName)
+    #jt = Template(ctx.templates[templateName])
     doc = jt.render(options)
     return json.loads(doc, object_pairs_hook=OrderedDict)
 
@@ -59,9 +72,9 @@ def loadModel(ctx):
     ctx.vlog('loadModel: Start')
     props = {}
     props['ctx'] = ctx
-    with open(ctx.modelFile) as fd:
-        modelTemplate = fd.read()
-    jt = Template(modelTemplate)
+    env = Environment()
+    env.loader = FileSystemLoader(ctx.modelDir)
+    jt = env.get_template(ctx.modelFile)
     doc = jt.render(props)
     model = json.loads(doc, object_pairs_hook=OrderedDict)
     return model
@@ -100,7 +113,8 @@ def loadPolicyTemplates(ctx):
     templates = {}
     path=ctx.templateDir
     for file in os.listdir(path):
-        if file == 'default':
+        #if file == 'default':
+        if file in ctx.templateExcludes:
             continue
         with open(path+'/'+file, "r") as fd:
             templates[file] = fd.read()
@@ -130,13 +144,15 @@ class Reorder(object):
             lnew.append(OrderedDict((k, obj[k]) for k in self.model))
         return lnew
 
-def showPolicyJson(ctx, policyName, policyDoc, offset, width):
-    total = len(policyDoc)
+def showPolicyJson(ctx, policyDoc, offset, width):
     lineLen = width - offset
-    begin = 0
-    end = lineLen
-    ctx.log('%*sPolicy: %s: ' % (offset-10,'',policyName))
-    while  begin < total:
-        ctx.log('%*s%s'% (offset,' ', policyDoc[begin:end]))
-        begin += lineLen
-        end += lineLen
+
+    lines = policyDoc.splitlines()
+    for line in lines:
+        total = len(line)
+        begin = 0
+        end = lineLen
+        while  begin < total:
+            ctx.log('%*s%s'% (offset,' ', line[begin:end]))
+            begin += lineLen
+            end += lineLen

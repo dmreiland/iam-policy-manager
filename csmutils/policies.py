@@ -50,11 +50,11 @@ def compareModel2AWS(ctx, policyName, meta, diff_type, context_lines):
         return False, None
     awsPolicy = document.do(awsPolicy)
     awsPolicy['Statement'] = statement.dolist(awsPolicy['Statement'])
-    awsDoc = json.dumps(awsPolicy, indent=4)
+    awsDoc = ctx.dumps(awsPolicy, indent=4)
 
     ctx.vlog('Fetching Model policy')
     modelPolicy = getModelPolicyDocument(ctx, policyName)
-    modelDoc = json.dumps(modelPolicy, indent=4)
+    modelDoc = ctx.dumps(modelPolicy, indent=4)
     matched = True
     diff = None
     if diff_type == 'context':
@@ -146,7 +146,7 @@ def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, co
                         aws_policies.deletePolicyVersion(ctx,policyArn, version)
                         break
             modelPolicy = getModelPolicyDocument(ctx, policyName)
-            policyDocument = json.dumps(modelPolicy, indent=4)
+            policyDocument = ctx.dumps(modelPolicy, indent=4)
             aws_policies.createPolicyVersion(ctx, policyArn, policyDocument)
 
 
@@ -165,7 +165,7 @@ def createPolicy(ctx, targetRegion, targetEnv, targetService, targetPolicy):
         if modelPolicy == None:
             ctx.log('Error: %s does not exist in the model' % policyName)
             continue
-        policyDocument = json.dumps(modelPolicy, indent=4)
+        policyDocument = ctx.dumps(modelPolicy, indent=4)
         ctx.log('Creating policy : %s' % policyName)
         aws_policies.createPolicy(ctx, policyName, policyDocument)
 
@@ -177,14 +177,14 @@ def showAWSPolicy(ctx, targetRegion, targetEnv, targetService, targetPolicy):
             click.echo('%s:  %s' % (targetPolicy, meta) )
             click.echo('')
             policyDocument = aws_policies.getDefaultPolicyVersion(ctx, targetPolicy)
-            click.echo(json.dumps(policyDocument))
+            click.echo(ctx.dumps(policyDocument))
     else:
         for policyName in ctx.awsPolicyMeta:
             meta = ctx.awsPolicyMeta[policyName]
             click.echo('%s:  %s' % (policyName, meta) )
             click.echo('')
             policyDocument = aws_policies.getDefaultPolicyVersion(ctx, policyName)
-            click.echo(json.dumps(policyDocument))
+            click.echo(ctx.dumps(policyDocument))
             click.echo('-------------------------------------')
             click.echo('')
 

@@ -1,0 +1,10 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {% include 'snippets/elb_deployer.snippet' %},
+        {% include 'snippets/ec2_deployer.snippet' %},
+        {% include 'snippets/s3_deployer.snippet' %},
+        {% include 'snippets/iam_deployer.snippet' %},
+        {% include 'snippets/r53_deployer.snippet' %}
+    ]
+}

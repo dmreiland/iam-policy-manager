@@ -8,21 +8,24 @@ from datetime import datetime
 
 class CSMContext(object):
     def __init__(self):
+        self.prettyprint = False
         self.verbose = False
-        self.modelFile = None
         self.orgId=None
         self.dry_run = False
         self.region = None
         self.env = None
         self.iam = boto3.client('iam')
         self.ec2 = boto3.client('ec2')
+        self.modelDir = None
+        self.modelFile = None
         self.model = None
         self.currentRoles = []
         self.awsPolicyMeta = {}
         self.awsPolicyDocs = {}
-        self.templateDir = None
         self.modelPolicies=None
+        self.templateDir = None
         self.templates = {}
+        self.templateExcludes = ['default', 'snippets']
 
     def arnRoot(self):
         return 'arn:aws:iam::%s' % self.orgId
@@ -62,3 +65,9 @@ class CSMContext(object):
         """Logs a message to stderr only if verbose is enabled."""
         if self.verbose:
             self.nlog(msg, *args)
+
+    def dumps(self, j):
+        if self.prettyprint:
+            return json.dumps(j, indent=3)
+        else:
+            return json.dumps(j)

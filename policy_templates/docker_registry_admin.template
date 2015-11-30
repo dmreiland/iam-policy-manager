@@ -2,13 +2,14 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "Stmt1432140202000",
+            "Sid": "Stmt1425990752000",
             "Effect": "Allow",
             "Action": [
-                "elasticloadbalancing:*"
+                "s3:*"
             ],
             "Resource": [
-                "*"
+                "arn:aws:s3:::confyrm-docker-registry-2.0",
+                "arn:aws:s3:::confyrm-docker-registry-2.0/*"
             ]
         }
     ]

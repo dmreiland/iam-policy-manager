@@ -45,12 +45,12 @@
             "{{region}}-{{env}}-{{service}}-summon":"summon.template"
         },
         {% endfor %}
-        {% set deployers = ['ec2', 'elb', 'iam', 'route53'] %}
-        {% for deployer in deployers %}
-        "{{deployer}}_deployer":{
-          "{{region}}-{{env}}-{{deployer}}_deployer":"{{deployer}}_deployer.template"
+        "cd_deployer":{
+          "{{region}}-{{env}}-cd_deployer":"cd_deployer.template"
         },
-        {% endfor %}
+        "docker_registry_admin": {
+          "{{region}}-{{env}}-docker_registry_admin_2.0":"docker_registry_admin.template"
+        },
         "default": {
           {% for def in defaults %}
           "{{region}}-{{env}}-default-{{def}}":"default.{{def}}.template"{%- if not loop.last -%},{%- endif %}
@@ -113,19 +113,20 @@
       {% endfor %}
       {% set env = 'infra' %}
       "{{env}}": {
-        {% set roles = ['docker_registry', 'nexus', 'signal_recipient'] %}
+        {% set roles = ['nexus', 'signal_recipient'] %}
         {%  for role in roles %}
         "{{region}}-{{env}}-{{role}}": [
           "{{region}}-{{env}}-{{role}}-summon"
         ],
         {% endfor %}
+        "{{region}}-{{env}}-docker_registry": [
+          "{{region}}-{{env}}-docker_registry-summon",
+          "{{region}}-{{env}}-docker_registry_admin_2.0"
+        ],
         {% set role = 'jenkins_master' %}
         "{{region}}-{{env}}-{{role}}": [
           "{{region}}-{{env}}-{{role}}-summon",
-          "{{region}}-{{env}}-ec2_deployer",
-          "{{region}}-{{env}}-elb_deployer",
-          "{{region}}-{{env}}-iam_deployer",
-          "{{region}}-{{env}}-route53_deployer",
+          "{{region}}-{{env}}-cd_deployer",
           "{{region}}-{{env}}-default-ec2",
           "{{region}}-{{env}}-default-logstash",
           "{{region}}-{{env}}-default-logs_backup",

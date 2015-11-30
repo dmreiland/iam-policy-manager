@@ -17,7 +17,11 @@ pass_context = click.make_pass_decorator(CSMContext, ensure=True)
 @click.version_option()
 @click.option('-v', '--verbose', is_flag=True,
               help='Enables verbose mode.')
-@click.option('--model_file', default='json/model-v2.json',
+@click.option('--pp', is_flag=True,
+              help='Enables pretty print mode.')
+@click.option('--model_dir', default='json',
+              help='Directory where model file exists')
+@click.option('--model_file', default='model-v2.json',
               help='Model file')
 @click.option('--templates_folder', default='policy_templates',
               help='Policy templates folder')
@@ -26,7 +30,7 @@ pass_context = click.make_pass_decorator(CSMContext, ensure=True)
 @click.option('--dry_run', is_flag=True, default=False,
               help='Do not make actual changes to AWS')
 @pass_context
-def cli(ctx, verbose, model_file, templates_folder, org_id, dry_run):
+def cli(ctx, verbose, pp, model_dir, model_file, templates_folder, org_id, dry_run):
     if 'AWS_REGION' in os.environ:
         ctx.region = os.environ['AWS_REGION']
     elif 'AWS_DEFAULT_REGION' in os.environ:
@@ -36,16 +40,12 @@ def cli(ctx, verbose, model_file, templates_folder, org_id, dry_run):
         sys.exit(1)
 
     ctx.verbose = verbose
+    ctx.prettyprint = pp
     ctx.dry_run = dry_run
+    ctx.modelDir = model_dir
     ctx.modelFile = model_file
     ctx.templateDir = templates_folder
     ctx.orgId = org_id
-
-    ctx.templates = utils.loadPolicyTemplates(ctx)
-    ctx.model = utils.loadModel(ctx)
-    ctx.modelPolicies = utils.loadModelPolicies(ctx)
-    csm_policies.getAWSPolicies(ctx)
-    csm_roles.getAWSRoles(ctx)
 
 ########################################################################
 ##                       Manage Roles
@@ -53,7 +53,11 @@ def cli(ctx, verbose, model_file, templates_folder, org_id, dry_run):
 @cli.group('roles', short_help='manage AWS instance roles')
 @pass_context
 def roles(ctx):
-    pass
+    ctx.templates = utils.loadPolicyTemplates(ctx)
+    ctx.model = utils.loadModel(ctx)
+    ctx.modelPolicies = utils.loadModelPolicies(ctx)
+    csm_policies.getAWSPolicies(ctx)
+    csm_roles.getAWSRoles(ctx)
 
 @roles.command('compare', short_help='Compare AWS roles to model')
 @click.option('-r','--region', help='Compare only for this region')
@@ -92,7 +96,11 @@ def roles_delete_aws(ctx, role):
 @cli.group('profiles', short_help='manage AWS  instance profiles')
 @pass_context
 def profiles(ctx):
-    pass
+    ctx.templates = utils.loadPolicyTemplates(ctx)
+    ctx.model = utils.loadModel(ctx)
+    ctx.modelPolicies = utils.loadModelPolicies(ctx)
+    csm_policies.getAWSPolicies(ctx)
+    csm_roles.getAWSRoles(ctx)
 
 
 @profiles.command('show', short_help='Show AWS Instance Profiles')
@@ -112,7 +120,11 @@ def profiles_show(ctx, region, env, profilename, id, instances):
 @cli.group('policies', short_help='manage AWS  policies')
 @pass_context
 def policies(ctx):
-    pass
+    ctx.templates = utils.loadPolicyTemplates(ctx)
+    ctx.model = utils.loadModel(ctx)
+    ctx.modelPolicies = utils.loadModelPolicies(ctx)
+    csm_policies.getAWSPolicies(ctx)
+    csm_roles.getAWSRoles(ctx)
 
 
 @policies.command('delete', short_help='Compare model and AWS')
@@ -154,21 +166,14 @@ def policies_compare(ctx, region, env, service, policy, no_diff, diff_type, cont
 def policies_update(ctx, region, env, service, policy, constrain, force):
     csm_policies.updatePolicies(ctx, region, env, service, policy, constrain, force)
 
-@policies.command('show_aws_policy', short_help='Show an AWs policy')
+@policies.command('show', short_help='Show the current AWS policy(s)')
 @click.option('-r','--region', help='Create only for this region')
 @click.option('-e','--env', help='Create only for this env')
 @click.option('-s','--service', help='Create only for this service')
 @click.option('-p','--policy', help='Show only for this policy')
 @pass_context
 def policies_show_aws_policy(ctx, region, env, service, policy):
-    csm_policies.showAWSPolicy(ctx,region, env, service, policy)
-
-@policies.command('show_model_policy', short_help='Show a model policy')
-@click.option('-p','--policy', help='Policy name')
-@pass_context
-def policies_show_model_policy(ctx, policy):
-    policyDoc = csm_policies.getModelPolicyDocument(ctx,policy)
-    click.echo(json.dumps(policyDoc,indent=4))
+    csm_policies.showAWSPolicy(ctx, region, env, service, policy)
 
 @policies.command('show_unattached', short_help='Show all unattached policies not in the model')
 @pass_context
@@ -184,7 +189,11 @@ def policies_show_model_policy(ctx):
 @cli.group('model', short_help='manage the model')
 @pass_context
 def model(ctx):
-    pass
+    ctx.templates = utils.loadPolicyTemplates(ctx)
+    ctx.model = utils.loadModel(ctx)
+    ctx.modelPolicies = utils.loadModelPolicies(ctx)
+    #csm_policies.getAWSPolicies(ctx)
+    #csm_roles.getAWSRoles(ctx)
 
 @model.command('show', short_help='Show the model')
 @click.option('-r','--region', help='Create only for this region')

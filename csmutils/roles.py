@@ -121,7 +121,7 @@ def updateModelRoles(ctx, targetRegion, targetEnv, targetRole, constrainToModel)
                 if len(missing) > 0:
                     for policyName in missing:
                         ctx.log('-- Attaching policy: %s' % policyName)
-                        aws_roles.attachPolicy(ctx, roleName, policyName)
+                        aws_roles.attachPolicy(ctx, role, policyName)
 
                 if not constrainToModel:
                     continue
@@ -150,7 +150,7 @@ def updateAWSRoles(ctx, targetRegion, targetEnv, targetRole):
 
 def updateRoles(ctx, targetRegion, targetEnv, targetRole, constrainToModel):
     updateModelRoles(ctx, targetRegion, targetEnv, targetRole, constrainToModel)
-    if constrainTomodel:
+    if constrainToModel:
         updateAWSRoles(ctx, targetRegion, targetEnv, targetRole)
 
 
@@ -168,7 +168,7 @@ def showRoles(ctx, targetRegion, targetEnv, targetRole):
         ctx.log('Role: %s: %d attached policies:' % (roleName, len(attached)))
         for policyName in attached:
             policyDoc = csm_policies.getAWSPolicyDocument(ctx,policyName)
-            utils.showPolicyJson(ctx, policyName, json.dumps(policyDoc), 15, 120)
+            utils.showPolicyJson(ctx, policyName, ctx.dumps(policyDoc), 15, 120)
         ctx.log('')
 
 def isRoleInModel(ctx, roleName):
