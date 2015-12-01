@@ -17,6 +17,8 @@ pass_context = click.make_pass_decorator(CSMContext, ensure=True)
 @click.version_option()
 @click.option('-v', '--verbose', is_flag=True,
               help='Enables verbose mode.')
+@click.option('--mfa', is_flag=True,
+              help='Use MFA for authentication.')
 @click.option('--pp', is_flag=True,
               help='Enables pretty print mode.')
 @click.option('--model_dir', default='json',
@@ -25,12 +27,11 @@ pass_context = click.make_pass_decorator(CSMContext, ensure=True)
               help='Model file')
 @click.option('--templates_folder', default='policy_templates',
               help='Policy templates folder')
-@click.option('--org_id', default='716927822216',
-              help='Org id for ARNs')
+@click.option('--org_id', help='Org id for ARNs')
 @click.option('--dry_run', is_flag=True, default=False,
               help='Do not make actual changes to AWS')
 @pass_context
-def cli(ctx, verbose, pp, model_dir, model_file, templates_folder, org_id, dry_run):
+def cli(ctx, mfa, verbose, pp, model_dir, model_file, templates_folder, org_id, dry_run):
     if 'AWS_REGION' in os.environ:
         ctx.region = os.environ['AWS_REGION']
     elif 'AWS_DEFAULT_REGION' in os.environ:
@@ -39,13 +40,29 @@ def cli(ctx, verbose, pp, model_dir, model_file, templates_folder, org_id, dry_r
         ctx.log('Error: AWS Region is not defined', color='red')
         sys.exit(1)
 
+    if org_id != None:
+        ctx.orgId = org_id
+    elif 'AWS_ORG_ID' in os.environ:
+        orgid =  os.environ['AWS_ORG_ID']
+        if orgid[0] == 'i':
+            ctx.orgId = orgid[1:]
+        else:
+            ctx.orgId = orgid
+    else:
+        ctx.log('Error: AWS Org ID is not defined', color='red')
+        sys.exit(1)
+
     ctx.verbose = verbose
     ctx.prettyprint = pp
     ctx.dry_run = dry_run
     ctx.modelDir = model_dir
     ctx.modelFile = model_file
     ctx.templateDir = templates_folder
-    ctx.orgId = org_id
+
+    if mfa:
+        ctx.getTempCredentials()
+    else:
+        ctx.setDefaultClients()
 
 ########################################################################
 ##                       Manage Roles

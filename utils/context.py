@@ -14,8 +14,8 @@ class CSMContext(object):
         self.dry_run = False
         self.region = None
         self.env = None
-        self.iam = boto3.client('iam')
-        self.ec2 = boto3.client('ec2')
+        self.iam = None
+        self.ec2 = None
         self.modelDir = None
         self.modelFile = None
         self.model = None
@@ -57,3 +57,26 @@ class CSMContext(object):
             return json.dumps(j, indent=3)
         else:
             return json.dumps(j)
+
+    def setDefaultClients(self):
+        self.iam = boto3.client('iam')
+        self.ec2 = boto3.client('ec2')
+
+    def getTempCredentials(self):
+        mfa_deviceId = click.prompt("Enter Your AWS user name: ")
+        mfa_TOTP = click.prompt("Enter the MFA code: ")
+        sts_connection = boto3.client('sts')
+        tempCredentials = sts_connection.get_session_token(
+            DurationSeconds=3600,
+            SerialNumber='arn:aws:iam::%s:mfa/%s' % (self.orgId, mfa_deviceId),
+            TokenCode=mfa_TOTP)
+        self.iam = boto3.client(
+            'iam',
+            aws_access_key_id=tempCredentials['Credentials']['AccessKeyId'],
+            aws_secret_access_key=tempCredentials['Credentials']['SecretAccessKey'],
+            aws_session_token=tempCredentials['Credentials']['SessionToken'])
+        self.ec2 = boto3.client(
+            'ec2',
+            aws_access_key_id=tempCredentials['Credentials']['AccessKeyId'],
+            aws_secret_access_key=tempCredentials['Credentials']['SecretAccessKey'],
+            aws_session_token=tempCredentials['Credentials']['SessionToken'])
