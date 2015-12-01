@@ -59,10 +59,21 @@ def roles(ctx):
     csm_policies.getAWSPolicies(ctx)
     csm_roles.getAWSRoles(ctx)
 
+@roles.command('audit', short_help='Audit AWS roles and policies')
+@click.option('-r','--region', help='Audit only this region')
+@click.option('-e','--env', help='Audit only this env')
+@click.option('--role', help='Audit only for this role in region-env-role format')
+@click.option('--no_diff', is_flag=True, help='Do not show diff output', default=False)
+@click.option('--diff_type', type=click.Choice(['context','ndiff','unified']), help='Use context style diff output', default='unified')
+@click.option('--context_lines', type=click.INT, help='Number of diff context lines to use.', default=0)
+@pass_context
+def roles_audit(ctx,region, env, role, no_diff, diff_type, context_lines):
+    csm_roles.auditRoles(ctx, region, env, role, no_diff, diff_type, context_lines)
+
 @roles.command('compare', short_help='Compare AWS roles to model')
 @click.option('-r','--region', help='Compare only for this region')
 @click.option('-e','--env', help='Compare only for this env')
-@click.option('--role', help='Update only for this role in region-env-role format')
+@click.option('--role', help='Compare only this role in region-env-role format')
 @pass_context
 def roles_compare(ctx,region, env, role):
     csm_roles.compareRoles(ctx, region, env, role)

@@ -38,33 +38,19 @@ class CSMContext(object):
     def policyArn(self, serviceName):
         return '%s/%s' % (self.basePolicyArn(), self.roleName(serviceName))
 
-    def log(self, msg, *args, color=None):
+    def log(self, text, nl=True, err=False, color=None, **styles):
         """Logs a message to stderr."""
-        if args:
-            msg %= args
-        click.echo(msg, file=sys.stderr,color=color)
+        click.secho(text, file=sys.stderr, nl=nl, err=err, color=color, **styles)
 
-    def nlog(self, msg, *args, color=None):
-        """Logs a message to stderr."""
-        if args:
-            msg %= args
-        click.echo(msg, file=sys.stderr,color=color, nl=False)
+    def audit(self, text, nl=True, err=False, color=None, **styles):
+        """Logs a message to stderr with timestamp."""
+        text2 = '[%s]: %s' % (datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S,%f%z"),text)
+        self.log(text2, nl=nl, err=err, color=color, **styles)
 
-    def audit(self, msg, *args, color=None):
-        """Logs a message to stderr."""
-        if args:
-            msg %= args
-        msg2 = '[%s]: %s' % (datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S,%f%z"),msg)
-        click.echo(msg2, file=sys.stderr,color=color)
-
-    def vlog(self, msg, *args):
+    def vlog(self, text, nl=True, err=False, color=None, **styles):
         """Logs a message to stderr only if verbose is enabled."""
         if self.verbose:
-            self.log(msg, *args)
-    def nvlog(self, msg, *args):
-        """Logs a message to stderr only if verbose is enabled."""
-        if self.verbose:
-            self.nlog(msg, *args)
+            self.log(text, nl=nl, err=err, color=color, **styles)
 
     def dumps(self, j):
         if self.prettyprint:

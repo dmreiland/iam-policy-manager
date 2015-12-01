@@ -117,7 +117,8 @@ def createRole(ctx, roleName):
         ctx.log('create_role(Path=%s, RoleName=%s,AssumeRolePolicyDocument=%s)' % (path, roleName, assumeRolePolicyDocument))
         return
     # Create roles
-
+    region, env, role = utils.regionEnvAndRole(roleName)
+    path = '/%s/%s/%s/' % (region, env,role)
     # Attach role to instance profile
     msp = iam.create_role(Path=path, RoleName=roleName, AssumeRolePolicyDocument=assumeRolePolicyDocument)
     if msp['ResponseMetadata']['HTTPStatusCode'] != 200:

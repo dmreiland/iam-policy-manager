@@ -145,7 +145,7 @@ def createPolicy(ctx, policyName, policyDocument):
         ctx.log('create_policy(PolicyName=%s, PolicyDocument=%s)' % (policyName, policyDocument))
         return
     mps = iam.create_policy(PolicyName=policyName, PolicyDocument=policyDocument)
-    ctx.audit('Created policy %s with %s' % (policyName, policyDocument))
+    ctx.audit('Created policy %s as:\n%s' % (policyName, policyDocument))
     if mps['ResponseMetadata']['HTTPStatusCode'] == 200:
         ctx.vlog('Policy created: %s' % mps['Policy']['Arn'])
         storePolicyMeta(ctx, mps['Policy'])

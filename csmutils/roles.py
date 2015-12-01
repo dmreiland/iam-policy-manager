@@ -34,8 +34,9 @@ def deleteRole(ctx, role):
 '''
 Look to see if all the roles in the model exist, and there are no
 roles that exist outside the model
+Model role us-west-2-prod-signal-transmitter
 '''
-def compareModelRoles(ctx, targetRegion, targetEnv, targetRole):
+def compareModelRoles(ctx, targetRegion, targetEnv, targetRole, isAudit, no_diff, diff_type, context_lines):
     ctxRoles = ctx.model['roles']
     for region in ctxRoles:
         if targetRegion != None and region != targetRegion:
@@ -47,32 +48,35 @@ def compareModelRoles(ctx, targetRegion, targetEnv, targetRole):
             for role in ctxRoles[region][env]:
                 if targetRole != None and role != targetRole:
                     continue
+                ctx.log('Model role %-34s' % role, nl=False, bold=True)
                 if not aws_roles.isRoleInAWS(ctx,role):
-                    ctx.log(click.style('Model role not found in AWS: ' + role, fg='cyan'))
+                    ctx.log('NOT FOUND!', fg='red')
                     continue
 
-                ctx.log('Model role found in AWS: ' + role)
+                ctx.log('     FOUND', bold=True)
 
                 policies = set(ctxRoles[region][env][role])
-                attached = set(aws_roles.getAttachedPolicies(ctx, role))
-                ctx.vlog('Model Policies: %s' % policies)
-                ctx.vlog('Attached Policies: %s' % attached)
+                if isAudit:
+                    for policyName in policies:
+                        csm_policies.comparePolicy(ctx, policyName, no_diff, diff_type, context_lines, '    ')
 
+                attached = set(aws_roles.getAttachedPolicies(ctx, role))
                 missing = policies.difference(attached)
-                policiesMatch = True
+
                 if len(missing) > 0:
-                    policiesMatch = False
-                    ctx.log(click.style('-- Model policies not attached: %s' % missing, fg='cyan'))
+                    ctx.log('    -- Model policies not attached:', fg='cyan')
+                    for policyName in missing:
+                        ctx.log('       %s' % policyName)
 
                 extra = attached.difference(policies)
                 if len(missing) > 0:
-                    policiesMatch = False
-                    ctx.log(click.style('-- Attached policies not in model: %s' % extra, fg='cyan'))
+                    ctx.log('    -- Attached policies not in model:', fg='cyan')
+                    for policyName in extra:
+                        ctx.log('       %s' % policyName)
 
-                if policiesMatch:
-                    ctx.log('-- Attached policies conform to model')
 
 def compareAWSRoles(ctx, targetRegion, targetEnv, targetRole):
+    extraRoles = []
     for role in ctx.currentRoles:
         roleName = role['RoleName']
         if targetRole != None and roleName != targetRole:
@@ -82,16 +86,29 @@ def compareAWSRoles(ctx, targetRegion, targetEnv, targetRole):
             continue
         if targetEnv != None and env != targetEnv:
             continue
-        if isRoleInModel(ctx, roleName):
-            ctx.log('AWS Role: %s is in model' % roleName)
-        else:
-            ctx.log(click.style('AWS Role: %s is NOT in model' % roleName, fg='cyan'))
+        if not isRoleInModel(ctx, roleName):
+            extraRoles.append(roleName)
+    if len(extraRoles) > 0:
+        ctx.log('AWS Roles NOT in Model:', fg='cyan')
+        for roleName in extraRoles:
+            ctx.log('    %s' % roleName)
 
 
 
 def compareRoles(ctx, targetRegion, targetEnv, targetRole):
-    compareModelRoles(ctx, targetRegion, targetEnv, targetRole)
+    isAudit=False
+    no_diff=True
+    diff_type = None
+    context_lines = 0
+
+    compareModelRoles(ctx, targetRegion, targetEnv, targetRole, isAudit, no_diff, diff_type, context_lines)
     compareAWSRoles(ctx, targetRegion, targetEnv, targetRole)
+
+def auditRoles(ctx, targetRegion, targetEnv, targetRole, no_diff, diff_type, context_lines):
+    isAudit = True
+    compareModelRoles(ctx, targetRegion, targetEnv, targetRole, isAudit, no_diff, diff_type, context_lines)
+    compareAWSRoles(ctx, targetRegion, targetEnv, targetRole)
+
 
 
 def updateModelRoles(ctx, targetRegion, targetEnv, targetRole, constrainToModel):

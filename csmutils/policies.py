@@ -92,25 +92,29 @@ def isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, target
         return False
     return True
 
+def comparePolicy(ctx, policyName, no_diff, diff_type, context_lines, offset):
+    ctx.log('%s%-43s' % (offset, policyName),nl=False)
+    meta = aws_policies.getPolicyMeta(ctx, policyName)
+    if meta == None:
+            ctx.log(' not found at AWS!', fg='cyan')
+            return
+    matched, diff = compareModel2AWS(ctx,policyName, meta, diff_type, context_lines)
+    if matched:
+        ctx.log(' MATCHED')
+    else:
+        ctx.log(' NOT MATCHED', fg='cyan')
+        if not no_diff and diff != None:
+            ctx.log('%sDiff output...' % offset, fg='cyan')
+            for line in diff:
+                ctx.log('%s   %s' % (offset, line), fg='cyan')
+
 
 def compareAllPolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, no_diff, diff_type, context_lines):
 
     for policyName in ctx.modelPolicies:
         if isValidTarget(ctx,policyName, targetRegion, targetEnv, targetService, targetPolicy) == False:
             continue
-        meta = aws_policies.getPolicyMeta(ctx, policyName)
-        if meta == None:
-                ctx.log(click.style('Policy not found at AWS: %s' % policyName, fg='cyan'))
-                continue
-        matched, diff = compareModel2AWS(ctx,policyName, meta, diff_type, context_lines)
-        if matched:
-            ctx.log('%s: MATCHED' % policyName)
-        else:
-            ctx.log(click.style('%s: NOT MATCHED' % policyName, fg='cyan'))
-            if not no_diff and diff != None:
-                ctx.log("Diff output...")
-                for line in diff:
-                    click.echo(line)
+        comparePolicy(ctx, policyName, no_diff, diff_type, context_lines,'')
 
 def updatePolicies(ctx, targetRegion, targetEnv, targetService, targetPolicy, constrainToModel, force):
     for policyName in ctx.modelPolicies:

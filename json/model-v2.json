@@ -4,7 +4,7 @@
   The following services just need a summon policy.  If the service
    needs more policies, then don't define it here.
 #}
-{% set services = ['api_nginx', 'consul', 'dbscript', 'elastalert', 'eps',
+{% set services = ['api_nginx', 'consul', 'dbscript', 'elastalert', 'eps', 'mock_service',
    'mongo', 'nat', 'pingfederate', 'postgres', 'rabbitmq', 'signal-dispatcher',
   'signal-transmitter', 'tokenservice', 'vpn'] %}
 {#
@@ -104,7 +104,7 @@
     "{{region}}": {
       {% for env in productEnvs %}
       "{{env}}":{
-        {% set standardRoles = ['api_nginx', 'consul', 'eps', 'nat',
+        {% set standardRoles = ['api_nginx', 'consul', 'eps', 'mock_service', 'nat',
           'pingfederate', 'rabbitmq', 'signal-dispatcher', 'signal-transmitter',
           'vpn', 'tokenservice'] %}
         {% for role in standardRoles %}
