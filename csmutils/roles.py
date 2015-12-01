@@ -55,17 +55,19 @@ def compareModelRoles(ctx, targetRegion, targetEnv, targetRole):
 
                 policies = set(ctxRoles[region][env][role])
                 attached = set(aws_roles.getAttachedPolicies(ctx, role))
+                ctx.vlog('Model Policies: %s' % policies)
+                ctx.vlog('Attached Policies: %s' % attached)
 
                 missing = policies.difference(attached)
                 policiesMatch = True
                 if len(missing) > 0:
                     policiesMatch = False
-                    ctx.log(click.style('-- Missiing attached policies: %s' % missing, fg='cyan'))
+                    ctx.log(click.style('-- Model policies not attached: %s' % missing, fg='cyan'))
 
                 extra = attached.difference(policies)
                 if len(missing) > 0:
                     policiesMatch = False
-                    ctx.log(click.style('-- Attached policies not in model: %s' % missing, fg='cyan'))
+                    ctx.log(click.style('-- Attached policies not in model: %s' % extra, fg='cyan'))
 
                 if policiesMatch:
                     ctx.log('-- Attached policies conform to model')

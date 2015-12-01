@@ -59,12 +59,31 @@
       },
       {% set env = 'corp' %}
       "{{env}}": {
-        {% set corpServices = ['es', 'icinga', 'logstash', 'elastalert', 'kibana'] %}
-        {% for service in corpServices %}
+        {% set service = 'es' %}
         "{{service}}": {
             "{{region}}-{{env}}-{{service}}-summon":"summon.template"
         },
-        {% endfor %}
+        {% set service = 'icinga' %}
+        "{{service}}": {
+            "{{region}}-{{env}}-{{service}}-summon":"summon.template",
+            "{{region}}-{{env}}-{{service}}-ec2_readonly":"ec2_readonly.template"
+        },
+        {% set service = 'logstash' %}
+        "{{service}}": {
+            "{{region}}-{{env}}-{{service}}-summon":"summon.template"
+        },
+        {% set service = 'elastalert' %}
+        "{{service}}": {
+            "{{region}}-{{env}}-{{service}}-summon":"summon.template"
+        },
+        {% set service = 'kibana' %}
+        "{{service}}": {
+            "{{region}}-{{env}}-{{service}}-summon":"summon.template"
+        },
+        "ec2_instances": {
+          "{{region}}-{{env}}-ec2_instances":"ec2_instances.template"
+        },
+
         "default": {
           {% for def in defaults %}
           "{{region}}-{{env}}-default-{{def}}":"default.{{def}}.template"{%- if not loop.last -%},{%- endif %}
@@ -74,7 +93,12 @@
     }{%- if not loop.last -%},{%- endif %}
     {% endfor %}
   },
-
+{#
+  ########################################################################
+  The following portion of the model defines the roles, and the policy
+  documents that should be attached to them.
+  ########################################################################
+#}
   "roles":{
     {% for region in regions %}
     "{{region}}": {
@@ -113,15 +137,18 @@
       {% endfor %}
       {% set env = 'infra' %}
       "{{env}}": {
-        {% set roles = ['nexus', 'signal_recipient'] %}
-        {%  for role in roles %}
+        {% set role = 'nexus' %}
         "{{region}}-{{env}}-{{role}}": [
           "{{region}}-{{env}}-{{role}}-summon"
         ],
-        {% endfor %}
-        "{{region}}-{{env}}-docker_registry": [
-          "{{region}}-{{env}}-docker_registry-summon",
-          "{{region}}-{{env}}-docker_registry_admin_2.0"
+        {% set role = 'signal_recipient' %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon"
+        ],
+        {% set role = 'docker_registry' %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon",
+          "{{region}}-{{env}}-{{role}}_admin_2.0"
         ],
         {% set role = 'jenkins_master' %}
         "{{region}}-{{env}}-{{role}}": [
@@ -135,16 +162,25 @@
       },
       {% set env = 'corp' %}
       "{{env}}": {
-        {% set roles = ['es', 'icinga', 'logstash'] %}
-        {%  for role in roles %}
+        {% set role = 'logstash' %}
         "{{region}}-{{env}}-{{role}}": [
           "{{region}}-{{env}}-{{role}}-summon"
         ],
-        {% endfor %}
+        {% set role = 'es' %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon",
+          "{{region}}-{{env}}-ec2_instances"
+        ],
+        {% set role = 'icinga' %}
+        "{{region}}-{{env}}-{{role}}": [
+          "{{region}}-{{env}}-{{role}}-summon",
+          "{{region}}-{{env}}-{{role}}-ec2_readonly"
+        ],
         {% set role = 'kibana' %}
         "{{region}}-{{env}}-{{role}}": [
           "{{region}}-{{env}}-{{role}}-summon",
-          "{{region}}-{{env}}-elastalert-summon"
+          "{{region}}-{{env}}-elastalert-summon",
+          "{{region}}-{{env}}-default-logs_backup"
         ]
       }
     }{%- if not loop.last -%},{%- endif %}
