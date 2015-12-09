@@ -43,7 +43,7 @@ def attachPolicy(ctx, roleName, policyName):
     meta = aws_policies.getPolicyMeta(ctx, policyName)
     if meta == None:
         ctx.log('attachPolicy: Error- %s does not exist in cached AWS policies' % policyName)
-        sys.exit(1)
+        return
     policyArn = meta['Arn']
     if ctx.dry_run:
         ctx.log('iam.attach_role_policy(RoleName=%s, PolicyArn=%s)' % (
@@ -57,7 +57,7 @@ def detachPolicy(ctx, roleName, policyName):
     meta = aws_policies.getPolicyMeta(ctx, policyName)
     if meta == None:
         ctx.log('detachPolicy: Error- %s does not exist in cached AWS policies' % policyName)
-        sys.exit(1)
+        return
     policyArn = meta['Arn']
     if ctx.dry_run:
         ctx.log('iam.detach_role_policy(RoleName=%s, PolicyArn=%s)' % (roleName, policyArn))

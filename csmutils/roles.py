@@ -69,7 +69,7 @@ def compareModelRoles(ctx, targetRegion, targetEnv, targetRole, isAudit, no_diff
                         ctx.log('       %s' % policyName)
 
                 extra = attached.difference(policies)
-                if len(missing) > 0:
+                if len(extra) > 0:
                     ctx.log('    -- Attached policies not in model:', fg='cyan')
                     for policyName in extra:
                         ctx.log('       %s' % policyName)

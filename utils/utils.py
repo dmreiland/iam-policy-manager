@@ -16,9 +16,13 @@ def nameAndPath(region, env, roleName):
 def regionEnvAndRole(name):
     parts = name.split('-')
     # 0 - 'us', 1 -' west', 2 - '2', 3 - '<env>', 4 - '<role>'
-    if len(parts) < 3:
+    if len(parts) < 4:
         return None, None, name
-    region = '%s-%s-%s'%(parts[0],parts[1],parts[2])
+    if parts[0] == 'us' and parts[1] == 'west' and parts[2] == '2':
+        region = '%s-%s-%s'%(parts[0],parts[1],parts[2])
+    else:
+        return None, None, name
+
     env = parts[3]
     if len(parts) > 5:
         role = parts[4]
